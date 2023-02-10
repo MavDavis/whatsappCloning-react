@@ -4,7 +4,7 @@ const ActiveChats = () => {
   return (
     <ul className="mt-16 relative w-full">
       {chatList.map((chat) => (
-        <li className="  px-3 cursor-pointer">
+        <li className="  pl-3 cursor-pointer">
           <div className="flex items-center h-fit">
             <div className="rounded-full w-12 h-12 border">
               <img
