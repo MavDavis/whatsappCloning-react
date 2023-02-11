@@ -8,13 +8,14 @@ import TagFacesIcon from '@mui/icons-material/TagFaces';
 import IconButton from '@mui/material/IconButton';
 import AttachFileIcon from '@mui/icons-material/AttachFile';
 import KeyboardVoiceIcon from '@mui/icons-material/KeyboardVoice';
-
+import FormatAlignCenterIcon from '@mui/icons-material/FormatAlignCenter';
 export {
   IconButton,
   SearchIcon,
   MessageIcon,
   MoreVertIcon,
   DonutLargeIcon,
+  FormatAlignCenterIcon,
   AccountCircleIcon,
   TagFacesIcon,
   AttachFileIcon,
