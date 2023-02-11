@@ -1,17 +1,14 @@
 import React, { useState } from "react";
 import MainNav from "./MainNav";
 import image from "../assets/bgImage";
+import { useStateContext } from "../Contexts/ContextProvider";
 const Main = () => {
-  const [noChat, toggleNoChat] = useState(true);
+  const { openedChat,currentOpenedChat } = useStateContext();
+  console.log(currentOpenedChat);
   return (
-    <div
-      className="relative w-full h-full"
-    >
-      {/* <MainNav /> */}
-      {noChat && (
-        <div
-          className="   h-full flex flex-col justify-center items-center w-full dark:bg-dark-bg z-50"
-        >
+    <div className="relative w-full h-full">
+      {!openedChat ? (
+        <div className="   h-full flex flex-col justify-center items-center w-full dark:bg-dark-bg z-50">
           {image}
           <div
             style={{ minHeight: "40%" }}
@@ -29,6 +26,11 @@ const Main = () => {
               <p className="text-sm text-slate-400">End-to-end-encrypted</p>
             </div>
           </div>
+        </div>
+      ) : (
+        <div className="bg-hero-pattern min-h-screen text-white">
+        <p>Name :{currentOpenedChat.Username}</p>
+        <p>Id:{currentOpenedChat.userId}</p>
         </div>
       )}
     </div>

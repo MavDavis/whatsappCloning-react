@@ -2,10 +2,13 @@ import React from "react";
 import { chatList } from "../assets/dummyData";
 import DateFormat from "../assets/functions/DateFormat";
 import { AccountCircleIcon } from "../IconsExport";
+import { useStateContext } from "../Contexts/ContextProvider";
 const ActiveChats = () => {
-  const openChat = (id) => {
-    console.log(id);
-  };
+  const {openedChat, openChat, setOpenedChat} = useStateContext()
+  const open = (id) => {
+openChat(id)
+setOpenedChat(true)
+};
   const user = false;
   return (
     <ul className="mt-28 relative w-full">
@@ -14,7 +17,7 @@ const ActiveChats = () => {
           key={ind}
           className="  pl-3 cursor-pointer dark:hover:bg-dark-bg"
           onClick={() => {
-            openChat(chat.userId);
+            open(chat.userId);
           }}
         >
           <div className="flex items-center h-fit ">

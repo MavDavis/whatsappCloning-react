@@ -3,9 +3,10 @@ import "./App.css";
 import { Navbar, Sidebar, Main, MainNav } from "./Components";
 
 import { FiSettings } from "react-icons/fi";
+import { useStateContext } from "./Contexts/ContextProvider";
 const App = () => {
-  const { activeMenu } = true;
-  const currentMode = "Dark";
+  const {currentMode} = useStateContext();
+
   return (
     <div className={currentMode === "Dark" ? "dark" : ""}>
       <div className="flex relative dark:bg-main-dark-bg">
