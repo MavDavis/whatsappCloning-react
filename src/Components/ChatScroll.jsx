@@ -1,19 +1,19 @@
-import React, { useEffect, useRef } from 'react'
+import React, { useEffect, useRef } from "react";
 const ChatScroll = ({ currentOpenedChat }) => {
-  const messagesEndRef = useRef(null)
+  const messagesEndRef = useRef(null);
   const scrollToBottom = () => {
-    messagesEndRef.current?.scrollIntoView({ behavior: "smooth" })
-  }
-  
+    messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
+  };
+
   useEffect(() => {
-    scrollToBottom()
+    scrollToBottom();
   }, [currentOpenedChat]);
   const { message } = currentOpenedChat;
   let item = message.map((item, ind) => {
     return (
       <li
         key={ind}
-        style= {{maxWidth:'60%'}}
+        style={{ maxWidth: "60%" }}
         className={`${
           item.userId === 1
             ? "bg-teal-green-dark  flex  ml-auto "
@@ -28,7 +28,6 @@ const ChatScroll = ({ currentOpenedChat }) => {
     <ul className=" px-8 flex flex-col relative w-full min-h-full h-fit top-14 mb-28 ">
       {item}
       <div ref={messagesEndRef} />
-
     </ul>
   );
 };

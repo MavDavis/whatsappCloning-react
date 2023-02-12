@@ -1,23 +1,25 @@
 import React, { useState, createContext, useContext } from "react";
 import { chatList } from "../assets/dummyData";
+import { Auth, Database } from "../firebase";
+import { ref, set, get, update, remove, child } from "firebase/database";
 const StateContext = createContext();
 export const ContextProvider = ({ children }) => {
   const [openedChat, setOpenedChat] = useState(false);
   const [currentOpenedChat, setCurrentOpenedChat] = useState(null);
-  const [currentMode, setCurrentMode] = useState('Dark')
+  const [currentMode, setCurrentMode] = useState("Dark");
   const [message, setMessage] = useState("");
-const [user, setUser] = useState(null)
+  const [user, setUser] = useState(null);
   const openChat = (id) => {
-const chat = chatList.find(chat=> chat.userId === id)
-setCurrentOpenedChat (chat)
+    const chat = chatList.find((chat) => chat.userId === id);
+    setCurrentOpenedChat(chat);
   };
-  const sendMessage = ()=>{
-    const newMessage = {userId:1 , message, time:new Date() }
-    setMessage('')
-    setCurrentOpenedChat(prev =>{
-      return {...prev, message:[...prev.message, newMessage]}
-    })
-  }
+  const sendMessage = () => {
+    const newMessage = { userId: 1, message, time: new Date() };
+    setMessage("");
+    setCurrentOpenedChat((prev) => {
+      return { ...prev, message: [...prev.message, newMessage] };
+    });
+  };
   return (
     <StateContext.Provider
       value={{
@@ -27,7 +29,9 @@ setCurrentOpenedChat (chat)
         setCurrentOpenedChat,
         openChat,
         sendMessage,
-        currentMode, message, setMessage
+        currentMode,
+        message,
+        setMessage,
       }}
     >
       {children}
