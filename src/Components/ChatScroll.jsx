@@ -1,8 +1,22 @@
 import React from 'react'
-const ChatScroll = () => {
+const ChatScroll = ({currentOpenedChat}) => {
+  const {message} = (currentOpenedChat);
+  let item = message.map((item, ind) =>{
+    return <li key={ind} className={`${item.userId === 1 ? 'bg-teal-green-dark  flex  ml-auto ':'bg-dark-bg  flex   '} dark:text-slate-200 my-2 w-fit p-3 rounded-lg`}>{item.message}</li>
+  })
   return (
-    <div>ChatScroll</div>
-  )
+    <ul className='overflow-y-auto px-4 flex flex-col relative w-full min-h-full h-fit top-11'>
+
+      {item}
+    </ul>
+    )
 }
 
 export default ChatScroll
+
+
+
+
+
+
+

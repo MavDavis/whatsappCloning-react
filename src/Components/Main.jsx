@@ -2,11 +2,9 @@ import React, { useState } from "react";
 import MainNav from "./MainNav";
 import image from "../assets/bgImage";
 import { useStateContext } from "../Contexts/ContextProvider";
-import {
-  KeyboardVoiceIcon,
-  TagFacesIcon,
-  AttachFileIcon,
-} from "../IconsExport";
+
+import MessageFooter from "./MessageFooter";
+import ChatScroll from "./ChatScroll";
 const Main = () => {
   const { openedChat, currentOpenedChat } = useStateContext();
   return (
@@ -38,27 +36,8 @@ const Main = () => {
         >
           <div className="relative w-full h-fit min-h-full bg-transparent">
             <MainNav />
-            <div
-              style={{ width: "calc(100vw - 415px", left: "415px" , padding:'.75rem 2.75rem'}}
-              className="flex   dark:bg-darkest-bg min-h-fit   fixed  flex  bottom-0 z-1000   dark:text-white items-center "
-            >
-              <div className="icons flex items-center dark:text-slate-400">
-                <TagFacesIcon />
-                <AttachFileIcon className="mx-4"/>
-              </div>
-              <div className="input w-9/10 mr-3">
-                <input
-                  type="text"
-                  name=""
-                  id=""
-                  placeholder="start a new chat"
-                  className="dark:bg-dark-bg outline-0 dark:text-slate-200 p-4 text-sm rounded-lg w-full h-8 relative"
-                />
-              </div>
-              <div className="icons flex items-center dark:text-slate-400">
-           <KeyboardVoiceIcon/>
-              </div>
-            </div>
+            <ChatScroll currentOpenedChat = {currentOpenedChat}/>
+         <MessageFooter/>
           </div>
         </div>
       )}

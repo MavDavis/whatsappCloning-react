@@ -4,7 +4,6 @@ import { useStateContext } from "../Contexts/ContextProvider";
 import { SearchIcon,MoreVertIcon } from '../IconsExport';
 const MainNav = () => {
   const { openedChat, currentOpenedChat } = useStateContext();
-console.log(currentOpenedChat);
   return (
     <Navbar
     children={

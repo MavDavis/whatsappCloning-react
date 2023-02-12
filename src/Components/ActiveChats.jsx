@@ -4,10 +4,11 @@ import DateFormat from "../assets/functions/DateFormat";
 import { AccountCircleIcon } from "../IconsExport";
 import { useStateContext } from "../Contexts/ContextProvider";
 const ActiveChats = () => {
-  const {openedChat, openChat, setOpenedChat} = useStateContext()
+  const {openedChat, openChat, setOpenedChat, message, setMessage} = useStateContext()
   const open = (id) => {
 openChat(id)
 setOpenedChat(true)
+setMessage('')
 };
   const user = false;
   return (
