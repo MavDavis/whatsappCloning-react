@@ -14,7 +14,9 @@ const Sidebar = () => {
             {!searching ? (
               <SearchIcon className="searchIcon dark:text-slate-300  top-1" />
             ) : (
-              <AiOutlineArrowLeft className="text-lg arrowIcon"/>
+              <AiOutlineArrowLeft className="text-lg arrowIcon cursor-pointer" onClick={()=>{
+                setSearching(false)
+              }}/>
             )}
           </div>
           <input
@@ -29,7 +31,7 @@ const Sidebar = () => {
           />
         </div>
         <div className="p-2 float-left cursor-pointer w-4 h-4 rounded-full dark:hover:bg-dark-bg flex items-center justify-center">
-          <FormatAlignCenterIcon className=" dark:text-slate-200" />
+          <FormatAlignCenterIcon className=" dark:text-slate-300 FormatAlignCenterIcon" />
         </div>
       </div>
       <ActiveChats />

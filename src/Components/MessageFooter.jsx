@@ -10,7 +10,7 @@ import {
 } from "../IconsExport";
 
 const MessageFooter = () => {
-    const {  message, setMessage } = useStateContext();
+    const {  message, setMessage, sendMessage } = useStateContext();
   return (
     <div
     style={{
@@ -31,12 +31,19 @@ const MessageFooter = () => {
         id=""
         value={message}
         onChange={(e) => setMessage(e.target.value)}
+        onKeyUp = {(e)=>{
+          if(e.key === 'Enter'){
+            if(message){
+              sendMessage()
+
+            }
+        };}}
         placeholder="start a new chat"
         className="dark:bg-dark-bg outline-0 dark:text-slate-200 p-4 text-sm rounded-lg w-full h-8 relative"
       />
     </div>
     <div className="icons flex items-center text-lg cursor-pointer dark:text-slate-400">
-      {!message ? <KeyboardVoiceIcon /> : <IoMdSend />}
+      {!message ? <KeyboardVoiceIcon /> : <IoMdSend onClick={sendMessage}/>}
     </div>
   </div>  )
 }

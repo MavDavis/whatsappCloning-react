@@ -10,7 +10,7 @@ openChat(id)
 setOpenedChat(true)
 setMessage('')
 };
-  const user = false;
+console.log(chatList);
   return (
     <ul className="mt-28 relative w-full">
       {chatList.map((chat, ind) => (
@@ -23,9 +23,9 @@ setMessage('')
         >
           <div className="flex items-center h-fit ">
             <div className="rounded-full w-12 relative h-11 border flex items-center  justify-center ">
-              {user ? (
+              {chat.img.length ? (
                 <img
-                  src=""
+                  src={chat.img}
                   className="w-full h-full rounded-full relative"
                   alt="avatar"
                 />
