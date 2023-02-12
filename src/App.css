@@ -7,6 +7,9 @@
   max-width: 100vw;
 
 }
+i{
+  cursor: pointer;
+}
 .searchIcon{
   font-size: 1rem !important;
   cursor: pointer;

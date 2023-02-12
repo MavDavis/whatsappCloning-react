@@ -32,7 +32,7 @@ const Main = () => {
       ) : (
         <div
           style={{ width: "calc(100vw - 415px", left: "415px" }}
-          className="dark:bg-hero-pattern bg-no-repeat bg-cover fixed top-0 min-h-screen text-white"
+          className="dark:bg-hero-pattern bg-no-repeat bg-cover fixed overflow-y-auto top-0 min-h-fit h-full text-white"
         >
           <div className="relative w-full h-fit min-h-full bg-transparent">
             <MainNav />
