@@ -7,7 +7,13 @@
   max-width: 100vw;
 
 }
+.searchIcon{
+  font-size: 1em !important;
+}
+.arrowIcon{
+   color: #128C7E;
 
+}
 .account{
   width: 100% !important;
   height: 100% !important;

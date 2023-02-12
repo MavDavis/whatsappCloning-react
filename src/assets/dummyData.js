@@ -26,7 +26,7 @@ export const chatList = [
   },
   {
     Fullname: "Admin",
-    Username: "Mavdavis",
+    Username: "Davids",
     userId: 2,
     message: [
       { userId: 2, message: "hy", time: "02-sept,2023" },
@@ -50,7 +50,7 @@ export const chatList = [
   },
   {
     Fullname: "Admin",
-    Username: "Mavdavis",
+    Username: "Ekwesi",
     userId: 3,
     message: [
       { userId: 3, message: "hy", time: "02-sept,2023" },
@@ -98,7 +98,7 @@ export const chatList = [
   },
   {
     Fullname: "Admin",
-    Username: "Mavdavis",
+    Username: "Jeyi",
     userId: 5,
     message: [
       { userId: 5, message: "hy", time: "02-sept,2023" },
@@ -215,7 +215,7 @@ export const chatList = [
     img: "",
   }, {
     Fullname: "Admin",
-    Username: "Mavdavis",
+    Username: "Chibuzor",
     userId: 11,
     message: [
       { userId: 11, message: "hy", time: "02-sept,2023" },
@@ -262,7 +262,7 @@ export const chatList = [
   },
   {
     Fullname: "Admin",
-    Username: "Mavdavis",
+    Username: "Unknown",
     userId: 13,
     message: [
       { userId: 13, message: "hy", time: "02-sept,2023" },
