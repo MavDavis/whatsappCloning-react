@@ -1,6 +1,5 @@
 import React from "react";
 import { chatList } from "../assets/dummyData";
-import DateFormat from "../assets/functions/DateFormat";
 import { AccountCircleIcon } from "../IconsExport";
 import { useStateContext } from "../Contexts/ContextProvider";
 const ActiveChats = () => {
@@ -10,7 +9,6 @@ openChat(id)
 setOpenedChat(true)
 setMessage('')
 };
-console.log(chatList);
   return (
     <ul className="mt-28 relative w-full">
       {chatList.map((chat, ind) => (
@@ -42,7 +40,7 @@ console.log(chatList);
                 <p className="text-sm text-slate-300 font-thin">
                   {chat.message[chat.message.length - 1].message}
                 </p>
-                <p>{<DateFormat />}</p>
+                <p></p>
               </div>
             </div>
           </div>

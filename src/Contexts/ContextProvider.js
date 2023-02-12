@@ -6,7 +6,7 @@ export const ContextProvider = ({ children }) => {
   const [currentOpenedChat, setCurrentOpenedChat] = useState(null);
   const [currentMode, setCurrentMode] = useState('Dark')
   const [message, setMessage] = useState("");
-const [user, setUser] = {}
+const [user, setUser] = useState(null)
   const openChat = (id) => {
 const chat = chatList.find(chat=> chat.userId === id)
 setCurrentOpenedChat (chat)
