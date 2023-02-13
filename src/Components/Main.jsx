@@ -6,7 +6,7 @@ import { useStateContext } from "../Contexts/ContextProvider";
 import MessageFooter from "./MessageFooter";
 import ChatScroll from "./ChatScroll";
 const Main = () => {
-  const { openedChat, currentOpenedChat } = useStateContext();
+  const { openedChat, currentOpenedChat,  } = useStateContext();
   return (
     <div className="relative w-full h-full">
       {!openedChat ? (
