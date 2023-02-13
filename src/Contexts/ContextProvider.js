@@ -65,7 +65,7 @@ export const ContextProvider = ({ children }) => {
       whatsappStatus: "",
     });
   }
-  
+
   function Logout (){
     signOut(firebaseAuth)
     .then(() => {})
@@ -81,6 +81,7 @@ export const ContextProvider = ({ children }) => {
         sendMessage,
         currentMode,
         message,
+        Logout,
         addingUser,
         setMessage,
       }}
