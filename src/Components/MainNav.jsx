@@ -10,8 +10,8 @@ const MainNav = () => {
     <Navbar
       children={
         <div
-          style={{ width: "calc(100vw - 410px)", left: "415px" }}
-          className="flex z-1000 dark:bg-dark-bg justify-between items-center p-4 fixed top-0  "
+          // style={{ width: "calc(100vw - 410px)", left: "415px" }}
+          className="flex z-1000 responsive dark:bg-dark-bg justify-between items-center p-4 fixed top-0  "
         >
           <div className="flex items-center">
             <div className="rounded-full w-8 h-8 border">

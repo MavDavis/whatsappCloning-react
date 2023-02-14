@@ -10,8 +10,10 @@ const Main = () => {
   return (
     <div className="relative w-full h-full">
       {!openedChat ? (
-        <div className="   h-full flex flex-col justify-center items-center w-full dark:bg-dark-bg z-50">
-          {image}
+        <div
+        className=" responsive  fixed  top-0 min-h-fit h-full dark:bg-dark-bg z-50 dark:text-white flex flex-col justify-center items-center"
+
+>          {image}
           <div
             style={{ minHeight: "40%" }}
             className="mt-6 text-center justify-center items-center flex flex-col text-slate-200"
@@ -31,8 +33,8 @@ const Main = () => {
         </div>
       ) : (
         <div
-          style={{ width: "calc(100vw - 415px", left: "415px" }}
-          className="dark:bg-hero-pattern bg-no-repeat bg-cover fixed overflow-y-auto top-0 min-h-fit h-full text-white"
+          // style={{ width: "calc(100vw - 415px", left: "415px" }}
+          className="dark:bg-hero-pattern responsive bg-no-repeat bg-cover fixed overflow-y-auto top-0 min-h-fit h-full text-white"
         >
           <div className="relative w-full h-fit min-h-full bg-transparent">
             <MainNav />

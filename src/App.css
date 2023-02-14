@@ -38,3 +38,18 @@ i{
 ::-webkit-scrollbar-track {
   background-color: transparent;
 }
+.responsive,.responsive2{
+  width: 100%;
+left: 0;
+}
+@media(min-width : 640px) {
+  .responsive{
+    width:calc(100vw - 410px);
+    left: 415px;
+  }
+}@media(min-width : 640px) {
+  .responsive2{
+    width: 413px;
+    left: 0;
+  }
+}

@@ -14,11 +14,10 @@ const MessageFooter = () => {
   return (
     <div
     style={{
-      width: "calc(100vw - 415px",
-      left: "415px",
+ 
       padding: ".75rem 2.75rem",
     }}
-    className="   dark:bg-darkest-bg min-h-fit   fixed  flex  bottom-0 z-1000   dark:text-white items-center "
+    className="responsive   dark:bg-darkest-bg min-h-fit   fixed  flex  bottom-0 z-1000   dark:text-white items-center "
   >
     <div className="icons flex items-center dark:text-slate-400">
       <TagFacesIcon className="cursor-pointer"/>

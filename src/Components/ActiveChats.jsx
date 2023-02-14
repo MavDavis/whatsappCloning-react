@@ -3,11 +3,21 @@ import { chatList } from "../assets/dummyData";
 import { AccountCircleIcon } from "../IconsExport";
 import { useStateContext } from "../Contexts/ContextProvider";
 const ActiveChats = () => {
-  const {openedChat, openChat, setOpenedChat, message, setMessage} = useStateContext()
+  const {openedChat, openChat, setOpenedChat, message, setMessage, setShowChatList,setShowChat} = useStateContext()
   const open = (id) => {
 openChat(id)
 setOpenedChat(true)
 setMessage('')
+if (window.innerWidth < 640) {
+  setShowChat(true)
+  setShowChatList(false)
+}
+  else{
+  setShowChat(true);
+  setShowChatList(true)
+
+}
+
 };
   return (
     <ul className="mt-28 relative w-full">

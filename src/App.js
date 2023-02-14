@@ -1,12 +1,33 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import "./App.css";
 import { Navbar, Sidebar, Main, MainNav } from "./Components";
 
 import { FiSettings } from "react-icons/fi";
 import { useStateContext } from "./Contexts/ContextProvider";
 const App = () => {
-  const {currentMode} = useStateContext();
+  const { currentMode, showChat, setShowChat, showChatList, setShowChatList } =
+    useStateContext();
+  const [size, setSize] = useState(window.innerWidth);
 
+  function checkSize() {
+    if (window.innerWidth < 640) {
+      setShowChat(false);
+      setShowChatList(true)
+
+    }else{
+      setShowChat(true);
+      setShowChatList(true)
+    }
+  }
+
+  useEffect(() => {
+    checkSize()
+    window.addEventListener("resize", checkSize);
+    return () => {
+      window.removeEventListener("resize", checkSize);
+    };
+  }, [size]);
+  
   return (
     <div className={currentMode === "Dark" ? "dark" : ""}>
       <div className="flex relative dark:bg-main-dark-bg">
@@ -14,20 +35,13 @@ const App = () => {
           className="fixed right-4 bottom-4"
           style={{ zIndex: "1000" }}
         ></div>
-        <div className=" fixed    ">
-          <Sidebar />
-        </div>
+        <div className=" fixed    ">{showChatList && <Sidebar />} </div>
 
         <div
-              style={{ width: "calc(100vw - 415px)" }}
-
-          className={` h-screen   ml-400
+          className={` h-screen   
             `}
         >
-          {/* <div className="fixed md:static  navbar w-full ">
-            <MainNav />
-          </div> */}
-          <Main />
+          {showChat && <Main />}{" "}
         </div>
       </div>
       <div></div>

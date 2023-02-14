@@ -39,6 +39,8 @@ export const ContextProvider = ({ children }) => {
   const [currentMode, setCurrentMode] = useState("Dark");
   const [message, setMessage] = useState("");
   const [user, setUser] = useState(null);
+  const [showChat, setShowChat] = useState(true)
+  const [showChatList, setShowChatList] = useState(true)
   const openChat = (id) => {
     const chat = chatList.find((chat) => chat.userId === id);
     setCurrentOpenedChat(chat);
@@ -84,6 +86,10 @@ export const ContextProvider = ({ children }) => {
         Logout,
         addingUser,
         setMessage,
+        showChat,
+        setShowChat,
+        showChatList,
+        setShowChatList
       }}
     >
       {children}
