@@ -1,8 +1,11 @@
 import React, { useEffect, useState } from "react";
 import "./App.css";
-import { Navbar, Sidebar, Main, MainNav } from "./Components";
-
+import { Navbar, Sidebar, Main } from "./Components";
+import { BrowserRouter, Routes, Route, Link } from "react-router-dom";
+import { Signup, Login } from "./Pages";
 import { FiSettings } from "react-icons/fi";
+import { AiOutlineArrowLeft } from "react-icons/ai";
+
 import { useStateContext } from "./Contexts/ContextProvider";
 const App = () => {
   const { currentMode, showChat, setShowChat, showChatList, setShowChatList } =
@@ -12,41 +15,59 @@ const App = () => {
   function checkSize() {
     if (window.innerWidth < 640) {
       setShowChat(false);
-      setShowChatList(true)
-
-    }else{
+      setShowChatList(true);
+    } else {
       setShowChat(true);
-      setShowChatList(true)
+      setShowChatList(true);
     }
   }
 
   useEffect(() => {
-    checkSize()
+    checkSize();
     window.addEventListener("resize", checkSize);
     return () => {
       window.removeEventListener("resize", checkSize);
     };
   }, [size]);
-  
+
   return (
     <div className={currentMode === "Dark" ? "dark" : ""}>
-      <div className="flex relative dark:bg-main-dark-bg">
-        <div
-          className="fixed right-4 bottom-4"
-          style={{ zIndex: "1000" }}
-        ></div>
-        <div className=" fixed    ">{showChatList && <Sidebar />} </div>
-
-        <div
-          className={` h-screen   
-            `}
-        >
-          {showChat && <Main />}{" "}
-        </div>
-      </div>
-      <div></div>
+      <BrowserRouter>
+        <Routes>
+          <Route path="/" element={<Home />} />
+          <Route path="/login" element={<Login />} />
+          <Route path="/signup" element={<Signup />} />
+          <Route path="*" element={<Error />} />
+        </Routes>
+      </BrowserRouter>
     </div>
   );
 };
 
+const Home = () => {
+  const { showChat, showChatList } = useStateContext();
+  return (
+    <div className="flex relative dark:bg-main-dark-bg">
+      <div className="fixed right-4 bottom-4" style={{ zIndex: "1000" }}></div>
+      <div className=" fixed ">{showChatList && <Sidebar />}</div>
+
+      <div
+        className={` h-screen   
+      `}
+      >
+        {showChat && <Main />}
+      </div>
+    </div>
+  );
+};
+const Error = () => {
+  return (
+    <div className="w-full h-full min-h-screen flex-col dark:bg-darkest-bg dark:text-white flex text-center items-center justify-center">
+      <h1 className="capitalize text-3xl font-bold ">Page not Found</h1>
+      <h1 className="capitalize text-3xl font-bold my-2">404</h1>
+<Link className="capitalize text-xl font-bold mb-2 flex justify-between items-center" to = {`/`}><AiOutlineArrowLeft className="text-lg arrowIcon cursor-pointer mr-2"/><span>Go back to home</span></Link>
+      
+    </div>
+  );
+};
 export default App;

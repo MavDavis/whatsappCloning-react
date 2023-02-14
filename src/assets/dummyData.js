@@ -1,5 +1,5 @@
 const userId = 1;
-export const chatList = [
+export const exportedChat = [
   {
     Fullname: "Admin",
     Username: "Mavdavis",

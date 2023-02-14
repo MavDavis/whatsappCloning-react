@@ -1,5 +1,5 @@
 import React, { useState, createContext, useContext } from "react";
-import { chatList } from "../assets/dummyData";
+import { exportedChat } from "../assets/dummyData";
 import { firebaseAuth } from "../firebase/index";
 import {
   getAuth,
@@ -9,7 +9,6 @@ import {
 } from "firebase/auth";
 import { ref, uploadBytes, getDownloadURL } from "firebase/storage";
 import { storage } from "../firebase";
-
 
 import { db } from "../firebase";
 import { signOut } from "firebase/auth";
@@ -39,8 +38,9 @@ export const ContextProvider = ({ children }) => {
   const [currentMode, setCurrentMode] = useState("Dark");
   const [message, setMessage] = useState("");
   const [user, setUser] = useState(null);
-  const [showChat, setShowChat] = useState(true)
-  const [showChatList, setShowChatList] = useState(true)
+  const [showChat, setShowChat] = useState(true);
+  const [showChatList, setShowChatList] = useState(true);
+  const [chatList, setChatList] = useState(exportedChat);
   const openChat = (id) => {
     const chat = chatList.find((chat) => chat.userId === id);
     setCurrentOpenedChat(chat);
@@ -51,10 +51,13 @@ export const ContextProvider = ({ children }) => {
     setCurrentOpenedChat((prev) => {
       return { ...prev, message: [...prev.message, newMessage] };
     });
+    const newList = chatList.map((chat) => chat.userId === currentOpenedChat.userId ? currentOpenedChat : chat);
+    setChatList(newList)
+    
   };
 
   function addingUser() {
-    setDoc(doc(db, "User", ''), {
+    setDoc(doc(db, "User", ""), {
       Fullname: " ",
       Username: "",
       age: "",
@@ -68,14 +71,15 @@ export const ContextProvider = ({ children }) => {
     });
   }
 
-  function Logout (){
-    signOut(firebaseAuth)
-    .then(() => {})
+  function Logout() {
+    signOut(firebaseAuth).then(() => {});
   }
   return (
     <StateContext.Provider
       value={{
         openedChat,
+        chatList,
+        setChatList,
         setOpenedChat,
         currentOpenedChat,
         setCurrentOpenedChat,
@@ -89,7 +93,7 @@ export const ContextProvider = ({ children }) => {
         showChat,
         setShowChat,
         showChatList,
-        setShowChatList
+        setShowChatList,
       }}
     >
       {children}

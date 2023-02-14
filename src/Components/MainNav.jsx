@@ -2,10 +2,11 @@ import React from "react";
 import Navbar from "./Navbar";
 import { useStateContext } from "../Contexts/ContextProvider";
 import { AccountCircleIcon } from "../IconsExport";
+import { AiOutlineArrowLeft } from "react-icons/ai";
 
 import { SearchIcon, MoreVertIcon } from "../IconsExport";
 const MainNav = () => {
-  const { openedChat, currentOpenedChat } = useStateContext();
+  const { openedChat, currentOpenedChat,setShowChat, setShowChatList  } = useStateContext();
   return (
     <Navbar
       children={
@@ -33,7 +34,11 @@ const MainNav = () => {
             </p>
           </div>
           <div className="flex dark:text-slate-300    items-center justify-center text-lg px-4">
-            <SearchIcon className="mr-6" />
+            <AiOutlineArrowLeft className="cursor-pointer sm:hidden block" onClick={()=>{
+setShowChat(false)
+setShowChatList(true)
+            }} />
+            <SearchIcon  className="mx-6"/>
             <MoreVertIcon />
           </div>
         </div>

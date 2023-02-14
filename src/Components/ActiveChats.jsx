@@ -1,9 +1,8 @@
 import React from "react";
-import { chatList } from "../assets/dummyData";
 import { AccountCircleIcon } from "../IconsExport";
 import { useStateContext } from "../Contexts/ContextProvider";
 const ActiveChats = () => {
-  const {openedChat, openChat, setOpenedChat, message, setMessage, setShowChatList,setShowChat} = useStateContext()
+  const {openedChat, openChat, setOpenedChat, message, setMessage, setShowChatList,setShowChat, chatList, } = useStateContext()
   const open = (id) => {
 openChat(id)
 setOpenedChat(true)
