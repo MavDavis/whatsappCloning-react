@@ -47,7 +47,7 @@ const App = () => {
 const Home = () => {
   const { showChat, showChatList } = useStateContext();
   return (
-    <div className="flex relative dark:bg-main-dark-bg">
+    <div className="flex relative dark:bg-darkest-bg">
       <div className="fixed right-4 bottom-4" style={{ zIndex: "1000" }}></div>
       <div className=" fixed ">{showChatList && <Sidebar />}</div>
 
