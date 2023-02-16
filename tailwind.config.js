@@ -61,6 +61,7 @@ module.exports = {
       },
       backgroundImage: {
         "hero-pattern": "url('./assets/image-bg.png')",
+        "whatsapp-log":"url(./assets/whatsapp-logo.png"
       },
     },
   },

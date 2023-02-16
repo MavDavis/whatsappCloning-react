@@ -38,6 +38,7 @@ export const ContextProvider = ({ children }) => {
   const [currentMode, setCurrentMode] = useState("Dark");
   const [message, setMessage] = useState("");
   const [user, setUser] = useState(null);
+  const [loggedIn, setLoggedIn] = useState(false);
   const [showChat, setShowChat] = useState(true);
   const [showChatList, setShowChatList] = useState(true);
   const [chatList, setChatList] = useState(exportedChat);
@@ -56,23 +57,37 @@ export const ContextProvider = ({ children }) => {
     
   };
 
-  function addingUser() {
-    setDoc(doc(db, "User", ""), {
-      Fullname: " ",
-      Username: "",
+  function addingUser({res}) {
+    const {displayName, email, firstName, localId, photoUrl} = res.user
+    setDoc(doc(db, "User", localId), {
+      Fullname: displayName,
+      Username: firstName,
       age: "",
       DOB: "",
-      Email: "",
+      Email:email,
       password: "",
-      id: "",
+      id:localId,
       chats: [],
-      profileImage: "",
+      profileImage: photoUrl,
       whatsappStatus: "",
     });
   }
-
-  function Logout() {
-    signOut(firebaseAuth).then(() => {});
+function googleSignIn(){
+  let res = "";
+  signInWithPopup(firebaseAuth, provider)
+    .then((result) => {
+      const credential = GoogleAuthProvider.credentialFromResult(result);
+      const token = credential.accessToken;
+      res = result;
+    })
+    .then(() => {
+addingUser()
+    })
+}
+  function logout() {
+    signOut(firebaseAuth).then(() => {
+      console.log('loggedout');
+    });
   }
   return (
     <StateContext.Provider
@@ -87,12 +102,15 @@ export const ContextProvider = ({ children }) => {
         sendMessage,
         currentMode,
         message,
-        Logout,
+        logout,
         addingUser,
         setMessage,
         showChat,
         setShowChat,
+        loggedIn,
+        setLoggedIn,
         showChatList,
+        googleSignIn,
         setShowChatList,
       }}
     >

@@ -4,6 +4,7 @@ import { AiOutlineEye } from "react-icons/ai";
 import { FaRegEyeSlash } from "react-icons/fa";
 import { month, date, year } from "../assets/dummyData";
 import { Link } from "react-router-dom";
+import { useStateContext } from "../Contexts/ContextProvider";
 const Signup = () => {
   const [passwordType, setPasswordType] = useState("password");
   const togglePasswordType = () => {
@@ -11,9 +12,9 @@ const Signup = () => {
       ? setPasswordType("text")
       : setPasswordType("password");
   };
-  console.log(year());
+const {googleSignIn, logout} = useStateContext()
   return (
-    <div className="flex min-h-screen w-full  relative dark:bg-darkest-bg bg-white justify-center">
+    <div className="flex min-h-screen w-full  relative dark:bg-darkest-bg bg-white justify-center ">
       <div className="flex min-h-full flex-col justify-center items-center py-5 sm:px-6 lg:px-8 relative w-full">
         <div className="relative w-full">
           <h2 className="mt-3 text-center text-3xl font-bold tracking-tight dark:text-white text-gray-900">
@@ -138,7 +139,7 @@ const Signup = () => {
                 <div className="relative flex justify-center text-sm">
                   <span className="bg-white px-2 text-gray-500 flex items-center">
                     Or continue with{" "}
-                    <button className="flex items-center ml-2 hover:translate-x-1 hover:transition-all">
+                    <button className="flex items-center ml-2 hover:translate-x-1 hover:transition-all" onClick={googleSignIn}>
                       <FcGoogle />
                       <span className="text-sm">Google</span>
                     </button>

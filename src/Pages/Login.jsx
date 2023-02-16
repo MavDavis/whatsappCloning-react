@@ -2,6 +2,8 @@ import React, { useState } from "react";
 import { AiOutlineEye } from "react-icons/ai";
 import { FaRegEyeSlash } from "react-icons/fa";
 import { Link } from "react-router-dom";
+import { FcGoogle } from "react-icons/fc";
+
 const Login = () => {
   const [passwordType, setPasswordType] = useState("password");
   const togglePasswordType = () => {
@@ -13,15 +15,18 @@ const Login = () => {
     <div className="flex min-h-screen w-full  relative dark:bg-darkest-bg bg-white justify-center">
       <div className="flex min-h-full flex-col justify-center items-center py-12 sm:px-6 lg:px-8 relative w-full">
         <div className="relative w-full">
-          <h2 className="mt-6 text-center text-3xl font-bold tracking-tight dark:text-light-bg text-gray-900">
+          <h2 className="mt-3 text-center text-3xl font-bold tracking-tight dark:text-light-bg text-white">
             Sign in to your account
           </h2>
           <p className="mt-2 text-center text-sm text-gray-600"></p>
         </div>
-
+    
         <div className="mt-8 w-full sm:w-1/2 px-8">
           <div className="bg-white py-8 px-4 shadow sm:rounded-lg sm:px-10">
             <form className="space-y-6">
+            <div>
+              <button className="flex items-center">Sign in with <span  className="flex items-center ml-2"><FcGoogle/>oogle</span></button>
+              </div>
               <div>
                 <label
                   htmlFor="email"
