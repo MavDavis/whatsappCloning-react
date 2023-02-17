@@ -34,6 +34,7 @@ const provider = new GoogleAuthProvider();
 
 const StateContext = createContext();
 export const ContextProvider = ({ children }) => {
+  const [loading, setLoading] = useState(true)
   const [openedChat, setOpenedChat] = useState(false);
   const [currentOpenedChat, setCurrentOpenedChat] = useState(null);
   const [currentMode, setCurrentMode] = useState("Dark");
@@ -43,13 +44,26 @@ export const ContextProvider = ({ children }) => {
   const [showChat, setShowChat] = useState(true);
   const [showChatList, setShowChatList] = useState(true);
   const [chatList, setChatList] = useState(exportedChat);
+  async function userDetail() {
+
+    const user = firebaseAuth.currentUser;
+    const docRef = doc(db, "User", user.uid);
+    const docSnap = await getDoc(docRef);
+
+    if (docSnap.exists()) {
+      return docSnap.data();
+    }
+  }
   useEffect(() => {
     onAuthStateChanged(firebaseAuth, (user) => {
       if (user) {
         setLoggedIn(true);
+        setLoading(false)
+        console.log(userDetail());
       } else {
-        console.log("please log in");
-      }
+        setLoggedIn(false);
+        setLoading(false)      }
+      
     });
   }, []);
 
@@ -92,6 +106,7 @@ export const ContextProvider = ({ children }) => {
     }
   }
   function googleSignIn() {
+    
     let res = "";
     signInWithPopup(firebaseAuth, provider)
       .then((result) => {
@@ -129,6 +144,7 @@ export const ContextProvider = ({ children }) => {
         showChat,
         setShowChat,
         loggedIn,
+        loading,
         setLoggedIn,
         showChatList,
         googleSignIn,
