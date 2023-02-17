@@ -3,7 +3,9 @@ import Navbar from "./Navbar";
 import { FaUsers, FaEllipsisV } from "react-icons/fa";
 import { BsFillChatLeftTextFill } from "react-icons/bs";
 import { DonutLargeIcon } from "../IconsExport";
+import { useStateContext } from "../Contexts/ContextProvider";
 const SidebarNav = () => {
+  const {logout} = useStateContext()
   return (
     <div>
       <Navbar
@@ -23,7 +25,7 @@ const SidebarNav = () => {
               <FaUsers className="text-2xl" />
               <DonutLargeIcon className="mx-5" />
               <BsFillChatLeftTextFill className="mr-5" />
-              <FaEllipsisV />
+              <FaEllipsisV onClick={logout}/>
             </div>
           </div>
         }

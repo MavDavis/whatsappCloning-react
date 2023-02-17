@@ -1,4 +1,5 @@
-import React, { useState, createContext, useContext } from "react";
+import React, { useState, createContext, useContext, useEffect } from "react";
+
 import { exportedChat } from "../assets/dummyData";
 import { firebaseAuth } from "../firebase/index";
 import {
@@ -11,7 +12,7 @@ import { ref, uploadBytes, getDownloadURL } from "firebase/storage";
 import { storage } from "../firebase";
 
 import { db } from "../firebase";
-import { signOut } from "firebase/auth";
+import { signOut, onAuthStateChanged } from "firebase/auth";
 import { createUserWithEmailAndPassword } from "firebase/auth";
 import {
   collection,
@@ -42,6 +43,16 @@ export const ContextProvider = ({ children }) => {
   const [showChat, setShowChat] = useState(true);
   const [showChatList, setShowChatList] = useState(true);
   const [chatList, setChatList] = useState(exportedChat);
+  useEffect(() => {
+    onAuthStateChanged(firebaseAuth, (user) => {
+      if (user) {
+        setLoggedIn(true);
+      } else {
+        console.log("please log in");
+      }
+    });
+  }, []);
+
   const openChat = (id) => {
     const chat = chatList.find((chat) => chat.userId === id);
     setCurrentOpenedChat(chat);
@@ -52,41 +63,51 @@ export const ContextProvider = ({ children }) => {
     setCurrentOpenedChat((prev) => {
       return { ...prev, message: [...prev.message, newMessage] };
     });
-    const newList = chatList.map((chat) => chat.userId === currentOpenedChat.userId ? currentOpenedChat : chat);
-    setChatList(newList)
-    
+    const newList = chatList.map((chat) =>
+      chat.userId === currentOpenedChat.userId ? currentOpenedChat : chat
+    );
+    setChatList(newList);
   };
 
-  function addingUser({res}) {
-    const {displayName, email, firstName, localId, photoUrl} = res.user
-    setDoc(doc(db, "User", localId), {
-      Fullname: displayName,
-      Username: firstName,
-      age: "",
-      DOB: "",
-      Email:email,
-      password: "",
-      id:localId,
-      chats: [],
-      profileImage: photoUrl,
-      whatsappStatus: "",
-    });
+ async function addingUser(res) {
+    const { displayName, email, uid, photoURL } = res.user;
+    const docRef = doc(db, "User", uid);
+    const docSnap =await getDoc(docRef);
+    if (docSnap.exists()) {
+      console.log("Document data:", docSnap.data());
+    } else {
+      // doc.data() will be undefined in this case
+      setDoc(doc(db, "User", uid), {
+        Fullname: displayName,
+        Username: res._tokenResponse.firstName,
+        age: "",
+        DOB: "",
+        Email: email,
+        password: "",
+        id: uid,
+        chats: [],
+        profileImage: photoURL,
+        whatsappStatus: "",
+      });
+    }
   }
-function googleSignIn(){
-  let res = "";
-  signInWithPopup(firebaseAuth, provider)
-    .then((result) => {
-      const credential = GoogleAuthProvider.credentialFromResult(result);
-      const token = credential.accessToken;
-      res = result;
-    })
-    .then(() => {
-addingUser()
-    })
-}
+  function googleSignIn() {
+    let res = "";
+    signInWithPopup(firebaseAuth, provider)
+      .then((result) => {
+        const credential = GoogleAuthProvider.credentialFromResult(result);
+        const token = credential.accessToken;
+        res = result;
+      })
+      .then(() => {
+        addingUser(res);
+        setLoggedIn(true);
+      });
+  }
   function logout() {
     signOut(firebaseAuth).then(() => {
-      console.log('loggedout');
+      console.log("loggedout");
+      setLoggedIn(false)
     });
   }
   return (

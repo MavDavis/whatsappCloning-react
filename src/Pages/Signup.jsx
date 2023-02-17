@@ -5,6 +5,8 @@ import { FaRegEyeSlash } from "react-icons/fa";
 import { month, date, year } from "../assets/dummyData";
 import { Link } from "react-router-dom";
 import { useStateContext } from "../Contexts/ContextProvider";
+import { Navigate } from "react-router-dom";
+
 const Signup = () => {
   const [passwordType, setPasswordType] = useState("password");
   const togglePasswordType = () => {
@@ -12,7 +14,11 @@ const Signup = () => {
       ? setPasswordType("text")
       : setPasswordType("password");
   };
-const {googleSignIn, logout} = useStateContext()
+  const { googleSignIn, logout } = useStateContext();
+  const {loggedIn} = useStateContext()
+  if (loggedIn) {
+      return <Navigate replace to="/" />;
+    } else {
   return (
     <div className="flex min-h-screen w-full  relative dark:bg-darkest-bg bg-white justify-center ">
       <div className="flex min-h-full flex-col justify-center items-center py-5 sm:px-6 lg:px-8 relative w-full">
@@ -84,13 +90,17 @@ const {googleSignIn, logout} = useStateContext()
                     name="Date"
                     className="w-1/4 border rounded block e appearance-none  border-gray-300 px-3 py-2 placeholder-gray-400 shadow-sm focus:border-darker-bg focus:outline-none focus:ring-darker-bg sm:text-sm"
                   >
-                    {date.map(item =>(<option value={item}>{item}</option>))}
+                    {date.map((item) => (
+                      <option value={item}>{item}</option>
+                    ))}
                   </select>
                   <select
                     name="Year"
                     className="w-1/4 border rounded block e appearance-none  border-gray-300 px-3 py-2 placeholder-gray-400 shadow-sm focus:border-darker-bg focus:outline-none focus:ring-darker-bg sm:text-sm"
                   >
-                    {year().map(item =>(<option value={item}>{item}</option>))}
+                    {year().map((item) => (
+                      <option value={item}>{item}</option>
+                    ))}
                   </select>
                 </div>
               </div>
@@ -124,7 +134,7 @@ const {googleSignIn, logout} = useStateContext()
               <div>
                 <button
                   type="submit"
-                  className="flex w-full justify-center rounded-md border border-transparent bg-darker-bg py-2 px-4 text-sm font-medium text-white shadow-sm hover:bg-darker-bg focus:outline-none focus:ring-2 focus:ring-darker-bg focus:ring-offset-2"
+                  className="flex w-full justify-center rounded-md border border-transparent bg-teal-600 py-2 px-4 text-sm font-medium text-white shadow-sm hover:bg-teal-500 focus:outline-none focus:ring-2 focus:ring-darker-bg focus:ring-offset-2"
                 >
                   Sign in
                 </button>
@@ -138,8 +148,11 @@ const {googleSignIn, logout} = useStateContext()
                 </div>
                 <div className="relative flex justify-center text-sm">
                   <span className="bg-white px-2 text-gray-500 flex items-center">
-                    Or continue with{" "}
-                    <button className="flex items-center ml-2 hover:translate-x-1 hover:transition-all" onClick={googleSignIn}>
+                    Or continue with
+                    <button
+                      className="flex items-center ml-2 hover:translate-x-1 hover:transition-all"
+                      onClick={googleSignIn}
+                    >
                       <FcGoogle />
                       <span className="text-sm">Google</span>
                     </button>
@@ -147,13 +160,17 @@ const {googleSignIn, logout} = useStateContext()
                 </div>
               </div>
             </div>
-
           </div>
         </div>
-            <p  className="flex items-center text-slate-200 mt-3">Signed up already? <Link className="text-teal-600 hover:tracking-wide ml-2" to='/login'>Login</Link></p>
+        <p className="flex items-center text-slate-200 mt-3">
+          Signed up already?{" "}
+          <Link className="text-teal-600 hover:tracking-wide ml-2" to="/login">
+            Login
+          </Link>
+        </p>
       </div>
     </div>
-  );
+  );}
 };
 
 export default Signup;
