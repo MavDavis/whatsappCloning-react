@@ -6,11 +6,26 @@ import { FcGoogle } from "react-icons/fc";
 import { useStateContext } from "../Contexts/ContextProvider";
 const Login = () => {
   const [passwordType, setPasswordType] = useState("password");
-  const { loggedIn, googleSignIn , logout} = useStateContext();
+  const { loggedIn, googleSignIn, logout, formDetails, setFormDetails,login } =
+    useStateContext();
+    const {  password, email } = formDetails;
+
   const togglePasswordType = () => {
     passwordType === "password"
       ? setPasswordType("text")
       : setPasswordType("password");
+  };
+  const changeInput = (event) => {
+    setFormDetails((prevDetails) => {
+      return {
+        ...prevDetails,
+        [event.target.name]: event.target.value,
+      };
+    });
+  };
+  const submitForm = (e) => {
+    e.preventDefault();
+    login()
   };
   if (loggedIn) {
     return <Navigate replace to="/" />;
@@ -40,7 +55,7 @@ const Login = () => {
                   </span>
                 </button>
               </div>
-              <form className="space-y-6">
+              <form className="space-y-6" onSubmit={submitForm}>
                 <div className="mt-6">
                   <div className="relative">
                     <div className="absolute inset-0 flex items-center">
@@ -64,6 +79,8 @@ const Login = () => {
                     <input
                       id="email"
                       name="email"
+                      value={email}
+                      onChange={changeInput}
                       type="email"
                       autoComplete="email"
                       required
@@ -84,6 +101,8 @@ const Login = () => {
                       id="password"
                       name="password"
                       type={passwordType}
+                      value={password}
+                      onChange={changeInput}
                       autoComplete="current-password"
                       required
                       className="block w-full relative appearance-none rounded-md border border-gray-300 px-3 py-2 placeholder-gray-400 shadow-sm focus:border-darker-bg focus:outline-none focus:ring-darker-bg sm:text-sm"

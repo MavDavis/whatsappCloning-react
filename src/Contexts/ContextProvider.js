@@ -34,7 +34,7 @@ const provider = new GoogleAuthProvider();
 
 const StateContext = createContext();
 export const ContextProvider = ({ children }) => {
-  const [loading, setLoading] = useState(true)
+  const [loading, setLoading] = useState(true);
   const [openedChat, setOpenedChat] = useState(false);
   const [currentOpenedChat, setCurrentOpenedChat] = useState(null);
   const [currentMode, setCurrentMode] = useState("Dark");
@@ -44,26 +44,34 @@ export const ContextProvider = ({ children }) => {
   const [showChat, setShowChat] = useState(true);
   const [showChatList, setShowChatList] = useState(true);
   const [chatList, setChatList] = useState(exportedChat);
+  const [formDetails, setFormDetails] = useState({
+    Name: "",
+    email: "",
+    password: "",
+    dates: "1",
+    years: "January",
+    months: "1960",
+  });
   async function userDetail() {
-
     const user = firebaseAuth.currentUser;
     const docRef = doc(db, "User", user.uid);
     const docSnap = await getDoc(docRef);
 
     if (docSnap.exists()) {
-      return docSnap.data();
+      setUser(docSnap.data());
+      setLoggedIn(true);
+
+      setLoading(false);
     }
   }
   useEffect(() => {
     onAuthStateChanged(firebaseAuth, (user) => {
       if (user) {
-        setLoggedIn(true);
-        setLoading(false)
-        console.log(userDetail());
+        userDetail();
       } else {
         setLoggedIn(false);
-        setLoading(false)      }
-      
+        setLoading(false);
+      }
     });
   }, []);
 
@@ -82,15 +90,38 @@ export const ContextProvider = ({ children }) => {
     );
     setChatList(newList);
   };
+  const emailSignup = () => {
+    const { email, password, Name } = formDetails;
+    let str = Name.trim().split(/\s+/);
 
- async function addingUser(res) {
+    createUserWithEmailAndPassword(firebaseAuth, email, password).then(
+      (userCredential) => {
+        setDoc(doc(db, "User", userCredential.user.uid.toString()), {
+          Fullname: Name,
+          Username: str[0],
+          age: "",
+          DOB: "",
+          Email: email,
+          password: password,
+          id: userCredential.user.uid.toString(),
+          chats: [],
+          profileImage: "",
+          whatsappStatus: "",
+        }).then(() => {
+          getDoc(doc(db, "User", userCredential.user.uid.toString())).then(
+            (item) => setUser(item.data())
+          );
+        });
+      }
+    );
+  };
+  async function addingUser(res) {
     const { displayName, email, uid, photoURL } = res.user;
     const docRef = doc(db, "User", uid);
-    const docSnap =await getDoc(docRef);
+    const docSnap = await getDoc(docRef);
     if (docSnap.exists()) {
-      console.log("Document data:", docSnap.data());
+      setUser(docSnap.data());
     } else {
-      // doc.data() will be undefined in this case
       setDoc(doc(db, "User", uid), {
         Fullname: displayName,
         Username: res._tokenResponse.firstName,
@@ -106,7 +137,6 @@ export const ContextProvider = ({ children }) => {
     }
   }
   function googleSignIn() {
-    
     let res = "";
     signInWithPopup(firebaseAuth, provider)
       .then((result) => {
@@ -116,22 +146,40 @@ export const ContextProvider = ({ children }) => {
       })
       .then(() => {
         addingUser(res);
-        setLoggedIn(true);
+      })
+      .then(() => {
+        getDoc(doc(db, "User", res.user.uid)).then((item) =>
+          setUser(item.data())
+        );
       });
   }
   function logout() {
     signOut(firebaseAuth).then(() => {
       console.log("loggedout");
-      setLoggedIn(false)
+      setLoggedIn(false);
     });
   }
+  const login = () => {
+    const { email, password } = formDetails;
+
+    signInWithEmailAndPassword(firebaseAuth, email, password).then((res)=>{
+      getDoc(doc(db, "User", res.user.uid)).then((item) =>
+      setUser(item.data())
+    );
+  });
+  };
   return (
     <StateContext.Provider
       value={{
         openedChat,
         chatList,
+        user,
+        login,
+        emailSignup,
         setChatList,
         setOpenedChat,
+        formDetails,
+        setFormDetails,
         currentOpenedChat,
         setCurrentOpenedChat,
         openChat,

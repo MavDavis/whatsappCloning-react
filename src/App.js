@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import "./App.css";
 import { Navbar, Sidebar, Main } from "./Components";
-import { BrowserRouter, Routes, Route, Link } from "react-router-dom";
+import { BrowserRouter, Routes, Route, Link, Navigate } from "react-router-dom";
 import { Signup, Login } from "./Pages";
 import { FiSettings } from "react-icons/fi";
 import { AiOutlineArrowLeft } from "react-icons/ai";
@@ -63,20 +63,27 @@ const App = () => {
 };
 
 const Home = () => {
-  const { showChat, showChatList } = useStateContext();
-  return (
-    <div className="flex relative dark:bg-darkest-bg">
-      <div className="fixed right-4 bottom-4" style={{ zIndex: "1000" }}></div>
-      <div className=" fixed ">{showChatList && <Sidebar />}</div>
+  const { showChat, showChatList, loggedIn } = useStateContext();
+  if (!loggedIn) {
+    return <Navigate replace to="/login" />;
+  } else {
+    return (
+      <div className="flex relative dark:bg-darkest-bg">
+        <div
+          className="fixed right-4 bottom-4"
+          style={{ zIndex: "1000" }}
+        ></div>
+        <div className=" fixed ">{showChatList && <Sidebar />}</div>
 
-      <div
-        className={` h-screen   
+        <div
+          className={` h-screen   
       `}
-      >
-        {showChat && <Main />}
+        >
+          {showChat && <Main />}
+        </div>
       </div>
-    </div>
-  );
+    );
+  }
 };
 const Error = () => {
   return (

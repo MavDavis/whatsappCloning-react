@@ -383,7 +383,6 @@ export const exportedChat = [
   },
 ]
 export const month= [
-  'Month',
   "January",
   "February",
   "march",
@@ -398,10 +397,10 @@ export const month= [
   "December",
 ]
 export const date = [
-'Date',  1,,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,31
+  1,,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,31
 ]
 export const year = ()=>{
-  const num = ['Year']
+  const num = []
   for (let i = 1960; i < 2024; i++) {
     num.push(i);
   }

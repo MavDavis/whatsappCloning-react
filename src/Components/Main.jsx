@@ -2,22 +2,21 @@ import React, { useState } from "react";
 import MainNav from "./MainNav";
 import image from "../assets/bgImage";
 import { useStateContext } from "../Contexts/ContextProvider";
-import { Navigate } from "react-router-dom";
 
 import MessageFooter from "./MessageFooter";
 import ChatScroll from "./ChatScroll";
 const Main = () => {
-  const { openedChat, currentOpenedChat, loggedIn } = useStateContext();
-  if (!loggedIn) {
-      return <Navigate replace to="/login" />;
-    } else {
+  const { openedChat, currentOpenedChat, loggedIn, user } = useStateContext();
+ 
   return (
     <div className="relative w-full h-full">
       {!openedChat ? (
         <div
         className=" responsive  fixed  top-0 min-h-fit h-full dark:bg-dark-bg z-50 dark:text-white flex flex-col justify-center items-center"
 
->          {image}
+>        <div className="w-full h-fit flex  justify-center items-center">
+{image}
+</div>
           <div
             style={{ minHeight: "40%" }}
             className="mt-6 text-center justify-center items-center flex flex-col text-slate-200"
@@ -48,7 +47,7 @@ const Main = () => {
         </div>
       )}
     </div>
-  );}
+  );
 };
 
 export default Main;
