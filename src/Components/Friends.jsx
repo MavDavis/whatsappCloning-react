@@ -1,32 +1,31 @@
 import React from "react";
 import { AccountCircleIcon } from "../IconsExport";
 import { useStateContext } from "../Contexts/ContextProvider";
-const ActiveChats = () => {
-  const {openedChat, openChat, setOpenedChat, message, setMessage, setShowChatList,setShowChat, chatList, } = useStateContext()
-  const open = (id) => {
-openChat(id)
-setOpenedChat(true)
-setMessage('')
-if (window.innerWidth < 640) {
-  setShowChat(true)
-  setShowChatList(false)
-}
-  else{
-  setShowChat(true);
-  setShowChatList(true)
+import {  AiOutlineArrowLeft } from "react-icons/ai";
 
-}
+import {Navbar} from './'
+const Friends = () => {
+  const { friendList,sidebarToShow } = useStateContext()
 
-};
-  return (<>
-{chatList &&    <ul className="mt-28 relative w-full">
-      {chatList.map((chat, ind) => (
+  return (
+    <>
+       <Navbar
+        children={
+          <div className="responsive2 flex z-1000 h-24 dark:bg-dark-bg justify-between items-center p-4 fixed top-0 left-0 ">
+          <AiOutlineArrowLeft className="cursor-pointer text-teal-600 text-2xl" onClick={()=>{
+sidebarToShow('chat')
+          }}/>
+          </div>
+        }
+      />
+    <ul className="mt-28 relative w-full">
+      {friendList.map((chat, ind) => (
         <li
           key={ind}
-          className="  pl-3 cursor-pointer dark:hover:bg-dark-bg"
-          onClick={() => {
-            open(chat.id);
-          }}
+          className="  pl-3  cursor-pointer dark:hover:bg-dark-bg"
+        //   onClick={() => {
+        //     open(chat.userId);
+        //   }}
         >
           <div className="flex items-center h-fit ">
             <div className="rounded-full w-12 relative h-11 border flex items-center  justify-center ">
@@ -46,18 +45,14 @@ if (window.innerWidth < 640) {
             <div className="border-b border-b-slate-600 py-2 flex w-full h-full relative ml-3 text-slate-200">
               <div className="flex flex-col">
                 <p className="text-lg font-normal">{chat.Fullname}</p>
-                <p className="text-sm text-slate-300 font-thin">
-                  {chat.message[chat.message.length - 1].message}
-                </p>
-                <p></p>
+                <p className="text-slate-500 mt-1 font-light text-small">{chat.whatsappStatus.slice(0,20)}{chat.whatsappStatus.length >20 && <span>...</span>}</p>
               </div>
             </div>
           </div>
         </li>
       ))}
-    </ul>}
-    </>
+    </ul></>
   );
 };
 
-export default ActiveChats;
+export default Friends;

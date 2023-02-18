@@ -36,14 +36,33 @@ const StateContext = createContext();
 export const ContextProvider = ({ children }) => {
   const [loading, setLoading] = useState(true);
   const [openedChat, setOpenedChat] = useState(false);
-  const [currentOpenedChat, setCurrentOpenedChat] = useState(null);
+  const [currentOpenedChat, setCurrentOpenedChat] = useState({});
   const [currentMode, setCurrentMode] = useState("Dark");
   const [message, setMessage] = useState("");
   const [user, setUser] = useState(null);
   const [loggedIn, setLoggedIn] = useState(false);
   const [showChat, setShowChat] = useState(true);
   const [showChatList, setShowChatList] = useState(true);
-  const [chatList, setChatList] = useState(exportedChat);
+  const [chatList, setChatList] = useState([]);
+  const [friendList, setFriendList] = useState([]);
+  const [sidebarChat, setSidebarChat] = useState(true);
+  const [sidebarFriends, setSidebarFriends] = useState(false);
+  const [sidebarProfile, setSidebarProfile] = useState(false);
+  const sidebarToShow = (res) => {
+    if (res === "chat") {
+      setSidebarChat(true);
+      setSidebarFriends(false);
+      setSidebarProfile(false);
+    } else if (res === "friends") {
+      setSidebarChat(false);
+      setSidebarFriends(true);
+      setSidebarProfile(false);
+    } else if (res === "profile") {
+      setSidebarChat(false);
+      setSidebarFriends(false);
+      setSidebarProfile(true);
+    }
+  };
   const [formDetails, setFormDetails] = useState({
     Name: "",
     email: "",
@@ -54,20 +73,31 @@ export const ContextProvider = ({ children }) => {
   });
   async function userDetail() {
     const user = firebaseAuth.currentUser;
-    const docRef = doc(db, "User", user.uid);
-    const docSnap = await getDoc(docRef);
-
-    if (docSnap.exists()) {
-      setUser(docSnap.data());
+    const unsub = onSnapshot(doc(db, "User", user.uid), (doc) => {
+      setUser( doc.data());
       setLoggedIn(true);
-
+      
       setLoading(false);
-    }
+      setChatList(doc.data().chats);
+  });
+  
   }
+  const getAllUsers = () => {
+    const q = query(collection(db, "User"));
+    const unsubscribe = onSnapshot(q, (querySnapshot) => {
+      const array = [];
+      querySnapshot.forEach((doc) => {
+        array.push(doc.data());
+      });
+      console.log(array);
+      setFriendList(array);
+    });
+  };
   useEffect(() => {
     onAuthStateChanged(firebaseAuth, (user) => {
       if (user) {
         userDetail();
+        getAllUsers();
       } else {
         setLoggedIn(false);
         setLoading(false);
@@ -76,17 +106,17 @@ export const ContextProvider = ({ children }) => {
   }, []);
 
   const openChat = (id) => {
-    const chat = chatList.find((chat) => chat.userId === id);
+    const chat = chatList.find((chat) => chat.id === id);
     setCurrentOpenedChat(chat);
   };
   const sendMessage = () => {
-    const newMessage = { userId: 1, message, time: new Date() };
+    const newMessage = { id: user.id, message, time: new Date() };
     setMessage("");
     setCurrentOpenedChat((prev) => {
       return { ...prev, message: [...prev.message, newMessage] };
     });
     const newList = chatList.map((chat) =>
-      chat.userId === currentOpenedChat.userId ? currentOpenedChat : chat
+      chat.id === currentOpenedChat.id ? currentOpenedChat : chat
     );
     setChatList(newList);
   };
@@ -104,13 +134,94 @@ export const ContextProvider = ({ children }) => {
           Email: email,
           password: password,
           id: userCredential.user.uid.toString(),
-          chats: [],
+          chats: [
+            {
+              Fullname: "Admin",
+              Username: "Mavdavis",
+              id: 0,
+              message: [
+                { id: 0, message: "hy", time: "02-sept,2023" },
+                {
+                  id: 0,
+                  message: "This is for test. Admin has no database",
+                  time: "02-sept,2023",
+                },
+                {
+                  id: userCredential.user.uid.toString(),
+                  message: "Click on the envelope icon",
+                  time: "02-sept,2023",
+                },
+                {
+                  id: 0,
+                  message: "Search for davids and senme a dm!",
+                  time: "02-sept,2023",
+                },
+              ],
+              profileImage: "",
+            },
+            {
+              Fullname: "Admin2",
+              Username: "David",
+              id: 1,
+              message: [
+                { id: 1, message: "hy", time: "02-sept,2023" },
+                {
+                  id: 1,
+                  message: "This is for test. Admin has no database",
+                  time: "02-sept,2023",
+                },
+                {
+                  id: userCredential.user.uid.toString(),
+                  message: "Click on the envelope icon",
+                  time: "02-sept,2023",
+                },
+                {
+                  id: 1,
+                  message: "Search for davids and senme a dm!",
+                  time: "02-sept,2023",
+                },  { id: 1, message: "hy", time: "02-sept,2023" },
+                {
+                  id: 1,
+                  message: "This is for test. Admin has no database",
+                  time: "02-sept,2023",
+                },
+                {
+                  id: userCredential.user.uid.toString(),
+                  message: "Click on the envelope icon",
+                  time: "02-sept,2023",
+                },
+                {
+                  id: 1,
+                  message: "Search for davids and senme a dm!",
+                  time: "02-sept,2023",
+                },  { id: 1, message: "hy", time: "02-sept,2023" },
+                {
+                  id: 1,
+                  message: ".This is for test. Admin has no databaseThis is for test. Admin has no databaseThis is for test. Admin has no database",
+                  time: "02-sept,2023",
+                },
+                {
+                  id: userCredential.user.uid.toString(),
+                  message: "Click on the envelope icon",
+                  time: "02-sept,2023",
+                },
+                {
+                  id: 1,
+                  message: "Search for davids and senme a dm!",
+                  time: "02-sept,2023",
+                },
+              ],
+              profileImage: "",
+            },
+          ],
           profileImage: "",
-          whatsappStatus: "",
+          whatsappStatus: "default Status",
         }).then(() => {
-          getDoc(doc(db, "User", userCredential.user.uid.toString())).then(
-            (item) => setUser(item.data())
-          );
+          getDoc(doc(db, "User", userCredential.user.uid.toString()))
+            .then((item) => {
+              setUser(item.data());
+            })
+           
         });
       }
     );
@@ -130,9 +241,88 @@ export const ContextProvider = ({ children }) => {
         Email: email,
         password: "",
         id: uid,
-        chats: [],
+        chats: [
+          {
+            Fullname: "Admin",
+            Username: "Mavdavis",
+            id: 0,
+            message: [
+              { id: 0, message: "hy", time: "02-sept,2023" },
+              {
+                id: 0,
+                message: "This is for test. Admin has no database",
+                time: "02-sept,2023",
+              },
+              {
+                id: uid,
+                message: "Click on the envelope icon",
+                time: "02-sept,2023",
+              },
+              {
+                id: 0,
+                message: "Just for testing message, you cannot send a message to an admin. click on the chat icon and send a user a message now.",
+                time: "02-sept,2023",
+              },
+            ],
+            profileImage: "",
+          },
+          {
+            Fullname: "Admin2",
+            Username: "Davids",
+            id: 1,
+            message: [
+              { id: 1, message: "hy", time: "02-sept,2023" },
+              {
+                id: 1,
+                message: "This is for test. Admin has no database",
+                time: "02-sept,2023",
+              },
+              {
+                id: uid,
+                message: "Click on the envelope icon",
+                time: "02-sept,2023",
+              },
+              {
+                id: 1,
+                message: "Search for davids and senme a dm!",
+                time: "02-sept,2023",
+              }, { id: 1, message: "hy", time: "02-sept,2023" },
+              {
+                id: 1,
+                message: "This is for test. Admin has no database",
+                time: "02-sept,2023",
+              },
+              {
+                id: uid,
+                message: "Click on the envelope icon",
+                time: "02-sept,2023",
+              },
+              {
+                id: 1,
+                message: "Search for davids and senme a dm!",
+                time: "02-sept,2023",
+              }, { id: 1, message: "hy", time: "02-sept,2023" },
+              {
+                id: 1,
+                message: ".This is for test. Admin has no databaseThis is for test. Admin has no databaseThis is for test. Admin has no databaseThis is for test. Admin has no database.",
+                time: "02-sept,2023",
+              },
+              {
+                id: uid,
+                message: "Just for testing message, you cannot send a message to an admin. click on the chat icon and send a user a message now.",
+                time: "02-sept,2023",
+              },
+              {
+                id: 1,
+                message: "Just for testing message, you cannot send a message to an admin. click on the chat icon and send a user a message now.",
+                time: "02-sept,2023",
+              },
+            ],
+            profileImage: "",
+          },
+        ],
         profileImage: photoURL,
-        whatsappStatus: "",
+        whatsappStatus: "default status",
       });
     }
   }
@@ -148,9 +338,11 @@ export const ContextProvider = ({ children }) => {
         addingUser(res);
       })
       .then(() => {
-        getDoc(doc(db, "User", res.user.uid)).then((item) =>
-          setUser(item.data())
-        );
+        getDoc(doc(db, "User", res.user.uid))
+          .then((item) => {
+            setUser(item.data());
+          })
+         
       });
   }
   function logout() {
@@ -162,18 +354,23 @@ export const ContextProvider = ({ children }) => {
   const login = () => {
     const { email, password } = formDetails;
 
-    signInWithEmailAndPassword(firebaseAuth, email, password).then((res)=>{
+    signInWithEmailAndPassword(firebaseAuth, email, password).then((res) => {
       getDoc(doc(db, "User", res.user.uid)).then((item) =>
-      setUser(item.data())
-    );
-  });
+        setUser(item.data())
+      );
+    });
   };
   return (
     <StateContext.Provider
       value={{
         openedChat,
         chatList,
+        friendList,
         user,
+        sidebarToShow,
+        sidebarChat,
+        sidebarFriends,
+        sidebarProfile,
         login,
         emailSignup,
         setChatList,

@@ -10,14 +10,14 @@ import {
 } from "../IconsExport";
 
 const MessageFooter = () => {
-    const {  message, setMessage, sendMessage } = useStateContext();
+    const {  message, setMessage, sendMessage, currentOpenedChat} = useStateContext();
   return (
     <div
     style={{
  
       padding: ".75rem 2.75rem",
     }}
-    className="responsive   dark:bg-darkest-bg min-h-fit   fixed  flex  bottom-0 z-1000   dark:text-white items-center "
+    className="responsive   dark:bg-darkest-bg min-h-fit  fixed  flex  bottom-0 z-1000   dark:text-white items-center "
   >
     <div className="icons flex items-center dark:text-slate-400">
       <TagFacesIcon className="cursor-pointer"/>
@@ -29,6 +29,7 @@ const MessageFooter = () => {
         name=""
         id=""
         value={message}
+        disabled ={currentOpenedChat.id === 0 || currentOpenedChat.id === 1 ? true :false}
         onChange={(e) => setMessage(e.target.value)}
         onKeyUp = {(e)=>{
           if(e.key === 'Enter'){

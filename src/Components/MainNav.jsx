@@ -16,9 +16,9 @@ const MainNav = () => {
         >
           <div className="flex items-center">
             <div className="rounded-full w-8 h-8 border">
-              {currentOpenedChat.img.length ? (
+              {currentOpenedChat.profileImage.length ? (
                 <img
-                  src={currentOpenedChat.img}
+                  src={currentOpenedChat.profileImage}
                   className="w-full h-full rounded-full relative"
                   alt="avatar"
                 />

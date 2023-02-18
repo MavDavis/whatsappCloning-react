@@ -7,11 +7,11 @@ import { AccountCircleIcon } from "../IconsExport";
 
 import { useStateContext } from "../Contexts/ContextProvider";
 const SidebarNav = () => {
-  const { logout, user } = useStateContext();
+  const { logout, user,sidebarToShow, } = useStateContext();
   const  {profileImage}  = user;
   return (
     <div>
-      <Navbar
+  {user &&    <Navbar
         children={
           <div className="responsive2 flex z-1000 dark:bg-dark-bg justify-between items-center p-4 fixed top-0 left-0 ">
             <div className="w-3/4 relative mr-4">
@@ -33,12 +33,14 @@ const SidebarNav = () => {
             <div className="flex  float-right  items-center justify-center text-lg px-4">
               <FaUsers className="text-2xl text-slate-500 cursor-not-allowed " disabled={true} />
               <DonutLargeIcon className="mx-5 cursor-pointer" />
-              <BsFillChatLeftTextFill className="mr-5 cursor-pointer" />
+              <BsFillChatLeftTextFill className="mr-5 cursor-pointer" onClick= {()=>{
+                sidebarToShow('friends')
+              }}/>
               <FaEllipsisV onClick={logout} className=' cursor-pointer'/>
             </div>
           </div>
         }
-      />
+      />}
     </div>
   );
 };

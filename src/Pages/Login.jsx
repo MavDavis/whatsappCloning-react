@@ -137,7 +137,7 @@ const Login = () => {
             </div>
           </div>
           <p className="flex items-center mt-3 text-slate-300">
-            Not a user?{" "}
+            Not a user ?
             <Link
               className="ml-2 text-teal-600 hover:tracking-wide"
               to="/signup"
