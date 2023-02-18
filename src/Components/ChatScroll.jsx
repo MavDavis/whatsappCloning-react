@@ -1,7 +1,7 @@
 import React, { useEffect, useRef } from "react";
 import { useStateContext } from "../Contexts/ContextProvider";
-const ChatScroll = ({  }) => {
-  const {currentOpenedChat, user}= useStateContext()
+const ChatScroll = ({}) => {
+  const { currentOpenedChat, user } = useStateContext();
   const messagesEndRef = useRef(null);
   const scrollToBottom = () => {
     messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
@@ -10,7 +10,7 @@ const ChatScroll = ({  }) => {
   useEffect(() => {
     scrollToBottom();
   }, [currentOpenedChat]);
-  const  message  = currentOpenedChat;
+  const message = currentOpenedChat;
   let item = message.message.map((item, ind) => {
     return (
       <li
@@ -28,11 +28,10 @@ const ChatScroll = ({  }) => {
   });
   return (
     <>
-    <ul className="chatScroll px-8 flex flex-col relative w-full min-h-full h-fit top-14 mb-28 ">
-      {item}
-    </ul>
-    <div ref={messagesEndRef} />
-
+      <ul className="chatScroll px-8 flex flex-col relative w-full min-h-full h-fit top-14 mb-28 ">
+        {message.message.length && item}
+      </ul>
+      <div ref={messagesEndRef} />
     </>
   );
 };

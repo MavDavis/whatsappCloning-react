@@ -7,16 +7,15 @@ import MessageFooter from "./MessageFooter";
 import ChatScroll from "./ChatScroll";
 const Main = () => {
   const { openedChat, currentOpenedChat, loggedIn, user } = useStateContext();
- 
+
   return (
     <div className="relative w-full h-full">
       {!openedChat ? (
-        <div
-        className=" responsive  fixed  top-0 min-h-fit h-full dark:bg-dark-bg z-50 dark:text-white flex flex-col justify-center items-center"
-
->        <div className="w-full h-fit flex  justify-center items-center">
-{image}
-</div>
+        <div className=" responsive  fixed  top-0 min-h-fit h-full dark:bg-dark-bg z-50 dark:text-white flex flex-col justify-center items-center">
+          {" "}
+          <div className="w-full h-fit flex  justify-center items-center">
+            {image}
+          </div>
           <div
             style={{ minHeight: "40%" }}
             className="mt-6 text-center justify-center items-center flex flex-col text-slate-200"
@@ -41,8 +40,8 @@ const Main = () => {
         >
           <div className="relative w-full h-fit min-h-full bg-transparent">
             <MainNav />
-            <ChatScroll currentOpenedChat = {currentOpenedChat}/>
-         <MessageFooter/>
+            <ChatScroll currentOpenedChat={currentOpenedChat} />
+            <MessageFooter />
           </div>
         </div>
       )}
