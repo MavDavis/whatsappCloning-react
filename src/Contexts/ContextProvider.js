@@ -1,6 +1,5 @@
 import React, { useState, createContext, useContext, useEffect } from "react";
 
-import { exportedChat } from "../assets/dummyData";
 import { firebaseAuth } from "../firebase/index";
 import {
   getAuth,
@@ -48,6 +47,7 @@ export const ContextProvider = ({ children }) => {
   const [sidebarChat, setSidebarChat] = useState(true);
   const [sidebarFriends, setSidebarFriends] = useState(false);
   const [sidebarProfile, setSidebarProfile] = useState(false);
+  const [settingsModal, setSettingsModal] = useState(true);
   const sidebarToShow = (res) => {
     if (res === "chat") {
       setSidebarChat(true);
@@ -74,13 +74,12 @@ export const ContextProvider = ({ children }) => {
   async function userDetail() {
     const user = firebaseAuth.currentUser;
     const unsub = onSnapshot(doc(db, "User", user.uid), (doc) => {
-      setUser( doc.data());
+      setUser(doc.data());
       setLoggedIn(true);
-      
+
       setLoading(false);
       setChatList(doc.data().chats);
-  });
-  
+    });
   }
   const getAllUsers = () => {
     const q = query(collection(db, "User"));
@@ -179,7 +178,8 @@ export const ContextProvider = ({ children }) => {
                   id: 1,
                   message: "Search for davids and senme a dm!",
                   time: "02-sept,2023",
-                },  { id: 1, message: "hy", time: "02-sept,2023" },
+                },
+                { id: 1, message: "hy", time: "02-sept,2023" },
                 {
                   id: 1,
                   message: "This is for test. Admin has no database",
@@ -194,10 +194,12 @@ export const ContextProvider = ({ children }) => {
                   id: 1,
                   message: "Search for davids and senme a dm!",
                   time: "02-sept,2023",
-                },  { id: 1, message: "hy", time: "02-sept,2023" },
+                },
+                { id: 1, message: "hy", time: "02-sept,2023" },
                 {
                   id: 1,
-                  message: ".This is for test. Admin has no databaseThis is for test. Admin has no databaseThis is for test. Admin has no database",
+                  message:
+                    ".This is for test. Admin has no databaseThis is for test. Admin has no databaseThis is for test. Admin has no database",
                   time: "02-sept,2023",
                 },
                 {
@@ -217,11 +219,11 @@ export const ContextProvider = ({ children }) => {
           profileImage: "",
           whatsappStatus: "default Status",
         }).then(() => {
-          getDoc(doc(db, "User", userCredential.user.uid.toString()))
-            .then((item) => {
+          getDoc(doc(db, "User", userCredential.user.uid.toString())).then(
+            (item) => {
               setUser(item.data());
-            })
-           
+            }
+          );
         });
       }
     );
@@ -260,7 +262,8 @@ export const ContextProvider = ({ children }) => {
               },
               {
                 id: 0,
-                message: "Just for testing message, you cannot send a message to an admin. click on the chat icon and send a user a message now.",
+                message:
+                  "Just for testing message, you cannot send a message to an admin. click on the chat icon and send a user a message now.",
                 time: "02-sept,2023",
               },
             ],
@@ -286,7 +289,8 @@ export const ContextProvider = ({ children }) => {
                 id: 1,
                 message: "Search for davids and senme a dm!",
                 time: "02-sept,2023",
-              }, { id: 1, message: "hy", time: "02-sept,2023" },
+              },
+              { id: 1, message: "hy", time: "02-sept,2023" },
               {
                 id: 1,
                 message: "This is for test. Admin has no database",
@@ -301,20 +305,24 @@ export const ContextProvider = ({ children }) => {
                 id: 1,
                 message: "Search for davids and senme a dm!",
                 time: "02-sept,2023",
-              }, { id: 1, message: "hy", time: "02-sept,2023" },
+              },
+              { id: 1, message: "hy", time: "02-sept,2023" },
               {
                 id: 1,
-                message: ".This is for test. Admin has no databaseThis is for test. Admin has no databaseThis is for test. Admin has no databaseThis is for test. Admin has no database.",
+                message:
+                  ".This is for test. Admin has no databaseThis is for test. Admin has no databaseThis is for test. Admin has no databaseThis is for test. Admin has no database.",
                 time: "02-sept,2023",
               },
               {
                 id: uid,
-                message: "Just for testing message, you cannot send a message to an admin. click on the chat icon and send a user a message now.",
+                message:
+                  "Just for testing message, you cannot send a message to an admin. click on the chat icon and send a user a message now.",
                 time: "02-sept,2023",
               },
               {
                 id: 1,
-                message: "Just for testing message, you cannot send a message to an admin. click on the chat icon and send a user a message now.",
+                message:
+                  "Just for testing message, you cannot send a message to an admin. click on the chat icon and send a user a message now.",
                 time: "02-sept,2023",
               },
             ],
@@ -338,11 +346,9 @@ export const ContextProvider = ({ children }) => {
         addingUser(res);
       })
       .then(() => {
-        getDoc(doc(db, "User", res.user.uid))
-          .then((item) => {
-            setUser(item.data());
-          })
-         
+        getDoc(doc(db, "User", res.user.uid)).then((item) => {
+          setUser(item.data());
+        });
       });
   }
   function logout() {
@@ -359,6 +365,17 @@ export const ContextProvider = ({ children }) => {
         setUser(item.data())
       );
     });
+  };
+  const startNewChat = (id) => {
+    const chat = friendList.find((chat) => chat.id === id);
+    let newObj = {
+      Fullname: chat.Fullname,
+      Username: chat.Username,
+      id: chat.id,
+      profileImage: chat.profileImage,
+      message: [],
+    };
+    setCurrentOpenedChat(newObj)
   };
   return (
     <StateContext.Provider
@@ -394,6 +411,7 @@ export const ContextProvider = ({ children }) => {
         showChatList,
         googleSignIn,
         setShowChatList,
+        startNewChat
       }}
     >
       {children}
