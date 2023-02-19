@@ -5,7 +5,7 @@ import { AiOutlineArrowLeft } from "react-icons/ai";
 
 import { Navbar } from "./";
 const Friends = () => {
-  const { friendList, sidebarToShow, startNewChat, setOpenedChat, setMessage } =
+  const { friendList, sidebarToShow, startNewChat, setOpenedChat, setChatMessage } =
     useStateContext();
 
   return (
@@ -30,7 +30,7 @@ const Friends = () => {
             onClick={() => {
               startNewChat(chat.id);
               setOpenedChat(true);
-              setMessage("");
+              setChatMessage("");
             }}
           >
             <div className="flex items-center h-fit ">

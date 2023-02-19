@@ -10,7 +10,7 @@ import {
 } from "../IconsExport";
 
 const MessageFooter = () => {
-    const {  message, setMessage, sendMessage, currentOpenedChat} = useStateContext();
+    const {  chatMessage, setChatMessage, sendMessage, currentOpenedChat} = useStateContext();
   return (
     <div
     style={{
@@ -28,12 +28,12 @@ const MessageFooter = () => {
         type="text"
         name=""
         id=""
-        value={message}
+        value={chatMessage}
         disabled ={currentOpenedChat.id === 0 || currentOpenedChat.id === 1 ? true :false}
-        onChange={(e) => setMessage(e.target.value)}
+        onChange={(e) => setChatMessage(e.target.value)}
         onKeyUp = {(e)=>{
           if(e.key === 'Enter'){
-            if(message){
+            if(chatMessage){
               sendMessage()
 
             }
@@ -43,7 +43,7 @@ const MessageFooter = () => {
       />
     </div>
     <div className="icons flex items-center text-lg cursor-pointer dark:text-slate-400">
-      {!message ? <KeyboardVoiceIcon /> : <IoMdSend onClick={sendMessage}/>}
+      {!chatMessage ? <KeyboardVoiceIcon /> : <IoMdSend onClick={sendMessage}/>}
     </div>
   </div>  )
 }

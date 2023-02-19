@@ -2,11 +2,11 @@ import React from "react";
 import { AccountCircleIcon } from "../IconsExport";
 import { useStateContext } from "../Contexts/ContextProvider";
 const ActiveChats = () => {
-  const {openedChat, openChat, setOpenedChat, message, setMessage, setShowChatList,setShowChat, chatList, } = useStateContext()
+  const {openedChat, openChat, setOpenedChat, setChatMessage, setShowChatList,setShowChat, chatList, } = useStateContext()
   const open = (id) => {
 openChat(id)
 setOpenedChat(true)
-setMessage('')
+setChatMessage('')
 if (window.innerWidth < 640) {
   setShowChat(true)
   setShowChatList(false)

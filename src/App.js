@@ -16,6 +16,8 @@ const App = () => {
     showChatList,
     setShowChatList,
     loading,
+    setSettingsModal,
+    settingsModal
   } = useStateContext();
   const [size, setSize] = useState(window.innerWidth);
 
@@ -38,7 +40,11 @@ const App = () => {
   }, [size]);
 
   return (
-    <div className={currentMode === "Dark" ? "dark" : ""}>
+    <div className={currentMode === "Dark" ? "dark" : ""} onClick={()=>{
+      if(settingsModal === true){
+        setSettingsModal(false)
+      }
+    }}>
       {!loading ? (
         <BrowserRouter>
           <Routes>

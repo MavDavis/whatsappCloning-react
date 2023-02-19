@@ -37,8 +37,8 @@ export const ContextProvider = ({ children }) => {
   const [openedChat, setOpenedChat] = useState(false);
   const [currentOpenedChat, setCurrentOpenedChat] = useState({});
   const [currentMode, setCurrentMode] = useState("Dark");
-  const [message, setMessage] = useState("");
-  const [user, setUser] = useState(null);
+  const [chatMessage, setChatMessage] = useState("");
+  const [user, setUser] = useState({});
   const [loggedIn, setLoggedIn] = useState(false);
   const [showChat, setShowChat] = useState(true);
   const [showChatList, setShowChatList] = useState(true);
@@ -47,7 +47,7 @@ export const ContextProvider = ({ children }) => {
   const [sidebarChat, setSidebarChat] = useState(true);
   const [sidebarFriends, setSidebarFriends] = useState(false);
   const [sidebarProfile, setSidebarProfile] = useState(false);
-  const [settingsModal, setSettingsModal] = useState(true);
+  const [settingsModal, setSettingsModal] = useState(false);
   const sidebarToShow = (res) => {
     if (res === "chat") {
       setSidebarChat(true);
@@ -81,14 +81,18 @@ export const ContextProvider = ({ children }) => {
       setChatList(doc.data().chats);
     });
   }
+  useEffect(()=>{
+    getAllUsers();
+
+  },[user])
   const getAllUsers = () => {
     const q = query(collection(db, "User"));
     const unsubscribe = onSnapshot(q, (querySnapshot) => {
       const array = [];
       querySnapshot.forEach((doc) => {
-        array.push(doc.data());
+        if(doc.id != user.id){
+          array.push(doc.data())}
       });
-      console.log(array);
       setFriendList(array);
     });
   };
@@ -96,7 +100,6 @@ export const ContextProvider = ({ children }) => {
     onAuthStateChanged(firebaseAuth, (user) => {
       if (user) {
         userDetail();
-        getAllUsers();
       } else {
         setLoggedIn(false);
         setLoading(false);
@@ -109,15 +112,73 @@ export const ContextProvider = ({ children }) => {
     setCurrentOpenedChat(chat);
   };
   const sendMessage = () => {
-    const newMessage = { id: user.id, message, time: new Date() };
-    setMessage("");
+    let newMessage = {
+      id: user.id,
+      message: chatMessage,
+      time: Timestamp.fromDate(new Date()),
+    };
     setCurrentOpenedChat((prev) => {
       return { ...prev, message: [...prev.message, newMessage] };
     });
-    const newList = chatList.map((chat) =>
-      chat.id === currentOpenedChat.id ? currentOpenedChat : chat
+    // const newList = chatList.map((chat) =>
+    //   chat.id === currentOpenedChat.id ? currentOpenedChat : chat
+    // );
+    // setChatList(newList);
+    const userId = user.id;
+    const friendsId = currentOpenedChat.id;
+    let userIdAndFriendsId = `${userId}${friendsId}`;
+    let friendsIdUserId = `${friendsId}${userId}`;
+    functionFroSendingMessage(user,currentOpenedChat, userIdAndFriendsId, friendsIdUserId);
+    functionFroSendingMessage(
+      currentOpenedChat,
+      user,
+      userIdAndFriendsId,
+      friendsIdUserId
     );
-    setChatList(newList);
+  };
+  const functionFroSendingMessage = async (users, users2, id1, id2) => {
+    let newMessage = {
+      id: user.id,
+      message: chatMessage,
+      time: Timestamp.fromDate(new Date()),
+    };
+    let { Fullname, Username, id , profileImage} = users2;
+
+    setChatMessage("");
+    const person = doc(db, "User", users.id);
+    const fetchPerson = await getDoc(person);
+    let { chats } = fetchPerson.data();
+    let aNewChatArray = [];
+    if (chats.length <= 0) {
+      let NewPerson = {
+        Fullname,
+        Username,
+        id,
+        profileImage,
+        chatId: id1,
+        message: [newMessage],
+      };
+      await updateDoc(person, { chats: [NewPerson] });
+    } else {
+      const foundChat = chats.find(
+        (item) => item.chatId === id1 || item.chatId === id2
+      );
+      if (foundChat) {
+        // update the message of the users
+        let NewPerson = chats.map(chat=> chat.chatId === id1 || chat.chatId ===id2 ? {...chat, message:[...chat.message, newMessage]}:chat)
+        await updateDoc(person, { chats: NewPerson });
+      } else {
+        // create a new chat and add to the chats
+        let NewPerson = {
+          Fullname,
+          Username,
+          id,
+          profileImage,
+          chatId: id1,
+          message: [ newMessage],
+        };
+        await updateDoc(person, { chats: [...chats,NewPerson] });      }
+    }
   };
   const emailSignup = () => {
     const { email, password, Name } = formDetails;
@@ -375,8 +436,8 @@ export const ContextProvider = ({ children }) => {
       profileImage: chat.profileImage,
       message: [],
     };
-    setCurrentOpenedChat(newObj)
-    sidebarToShow('chat')
+    setCurrentOpenedChat(newObj);
+    sidebarToShow("chat");
   };
   return (
     <StateContext.Provider
@@ -400,10 +461,10 @@ export const ContextProvider = ({ children }) => {
         openChat,
         sendMessage,
         currentMode,
-        message,
+        chatMessage,
         logout,
         addingUser,
-        setMessage,
+        setChatMessage,
         showChat,
         setShowChat,
         loggedIn,
@@ -412,7 +473,9 @@ export const ContextProvider = ({ children }) => {
         showChatList,
         googleSignIn,
         setShowChatList,
-        startNewChat
+        startNewChat,
+        settingsModal,
+        setSettingsModal,
       }}
     >
       {children}

@@ -5,7 +5,7 @@ const Searcbox = () => {
     const [searching, setSearching] = useState(false);
 
   return (
-    <div className="searchbar shadow-sm  dark:bg-darkest-bg min-h-fit responsive2 fixed  p-3  flex  top-16 z-1000   dark:text-white items-center ">
+    <div className="searchbar shadow-sm  dark:bg-darkest-bg min-h-fit responsive2 fixed  p-3  flex  top-16 z-50  dark:text-white items-center ">
     <div className="input w-9/10 mr-3 relative flex items-center">
       <div className="absolute left-4   z-10 text-sm ">
         {!searching ? (

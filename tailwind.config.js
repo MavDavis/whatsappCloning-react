@@ -20,6 +20,7 @@ module.exports = {
         "light-bg": "#ece5dd",
         "lighter-bg": "#fffff",
         "darker-bg": "#273443",
+        'modal-bg':'#2a3942',
         "dark-bg": "#202c33",
         "darkest-bg": "#111b21",
         black: "#0b141a",
