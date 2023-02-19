@@ -30,7 +30,7 @@ const MainNav = () => {
               )}
             </div>
             <p className="text-lg font-semibold dark:text-slate-200 ml-3">
-              {currentOpenedChat.Username}
+              {currentOpenedChat.Fullname}
             </p>
           </div>
           <div className="flex dark:text-slate-300    items-center justify-center text-lg px-4">

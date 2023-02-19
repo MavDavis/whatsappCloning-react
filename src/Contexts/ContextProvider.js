@@ -376,6 +376,7 @@ export const ContextProvider = ({ children }) => {
       message: [],
     };
     setCurrentOpenedChat(newObj)
+    sidebarToShow('chat')
   };
   return (
     <StateContext.Provider

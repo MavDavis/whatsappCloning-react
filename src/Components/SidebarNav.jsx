@@ -15,7 +15,9 @@ const SidebarNav = () => {
         children={
           <div className="responsive2 flex z-1000 dark:bg-dark-bg justify-between items-center p-4 fixed top-0 left-0 ">
             <div className="w-3/4 relative mr-4">
-              <div className="rounded-full w-8 h-8 border cursor-pointer">
+              <div className="rounded-full w-8 h-8 border cursor-pointer" onClick={()=>{
+                sidebarToShow('profile')
+              }}>
                 {profileImage.length ? (
                   <img
                     src={profileImage}
