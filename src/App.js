@@ -17,7 +17,10 @@ const App = () => {
     setShowChatList,
     loading,
     setSettingsModal,
-    settingsModal
+    settingsModal,
+    setCurrentOpenedChatModal,
+    currentOpenedChatModal
+
   } = useStateContext();
   const [size, setSize] = useState(window.innerWidth);
 
@@ -43,6 +46,9 @@ const App = () => {
     <div className={currentMode === "Dark" ? "dark" : ""} onClick={()=>{
       if(settingsModal === true){
         setSettingsModal(false)
+      }
+      if(currentOpenedChatModal){
+        setCurrentOpenedChatModal(false)
       }
     }}>
       {!loading ? (

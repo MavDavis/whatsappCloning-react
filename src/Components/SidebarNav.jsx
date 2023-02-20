@@ -1,9 +1,8 @@
 import React from "react";
-import Navbar from "./Navbar";
+import { Navbar, Modal } from "./";
 import { FaUsers, FaEllipsisV } from "react-icons/fa";
 import { BsFillChatLeftTextFill } from "react-icons/bs";
-import { DonutLargeIcon } from "../IconsExport";
-import { AccountCircleIcon } from "../IconsExport";
+import { AccountCircleIcon, DonutLargeIcon } from "../IconsExport";
 
 import { useStateContext } from "../Contexts/ContextProvider";
 const SidebarNav = () => {
@@ -57,35 +56,31 @@ const SidebarNav = () => {
                 />
               </div>
               {settingsModal && (
-                <div
-                  style={{
-                    zIndex: "100000",
-                    left: "200px",
-                    top: "3.5rem",
-                    boxShadow: "box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px",
-                    backgroundColor: "#2a3942",
-                  }}
-                  className="fixed  rounded-lg h-32 w-48 p-4 flex flex-col    "
-                >
-                  <p
-                    onClick={() => {
-                      setSettingsModal(false);
-                      sidebarToShow("profile");
-                    }}
-                    className="mb-4 cursor-pointer"
-                  >
-                    Profile
-                  </p>
-                  <p
-                    onClick={() => {
-                      setSettingsModal(false);
-                      logout();
-                    }}
-                    className=" cursor-pointer"
-                  >
-                    Logout
-                  </p>
-                </div>
+                <Modal
+                  left="200px"
+                  content={
+                    <>
+                      <p
+                        onClick={() => {
+                          setSettingsModal(false);
+                          sidebarToShow("profile");
+                        }}
+                        className="mb-4 cursor-pointer"
+                      >
+                        Profile
+                      </p>
+                      <p
+                        onClick={() => {
+                          setSettingsModal(false);
+                          logout();
+                        }}
+                        className=" cursor-pointer"
+                      >
+                        Logout
+                      </p>
+                    </>
+                  }
+                />
               )}
             </div>
           }

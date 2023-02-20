@@ -10,8 +10,7 @@ const ChatScroll = ({}) => {
   useEffect(() => {
     scrollToBottom();
   }, [currentOpenedChat]);
-  const message = currentOpenedChat;
-  let item = message.message.map((item, ind) => {
+  let item = currentOpenedChat.message.map((item, ind) => {
     return (
       <li
         key={ind}
@@ -29,7 +28,7 @@ const ChatScroll = ({}) => {
   return (
     <>
       <ul className="chatScroll px-8 flex flex-col relative w-full min-h-full h-fit top-14 mb-28 ">
-        {message.message.length && item}
+        {currentOpenedChat.message.length && item}
       </ul>
       <div ref={messagesEndRef} />
     </>

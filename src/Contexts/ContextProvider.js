@@ -48,6 +48,7 @@ export const ContextProvider = ({ children }) => {
   const [sidebarFriends, setSidebarFriends] = useState(false);
   const [sidebarProfile, setSidebarProfile] = useState(false);
   const [settingsModal, setSettingsModal] = useState(false);
+  const [currentOpenedChatModal, setCurrentOpenedChatModal] = useState(false)
   const sidebarToShow = (res) => {
     if (res === "chat") {
       setSidebarChat(true);
@@ -120,23 +121,20 @@ export const ContextProvider = ({ children }) => {
     setCurrentOpenedChat((prev) => {
       return { ...prev, message: [...prev.message, newMessage] };
     });
-    // const newList = chatList.map((chat) =>
-    //   chat.id === currentOpenedChat.id ? currentOpenedChat : chat
-    // );
-    // setChatList(newList);
+   
     const userId = user.id;
     const friendsId = currentOpenedChat.id;
     let userIdAndFriendsId = `${userId}${friendsId}`;
     let friendsIdUserId = `${friendsId}${userId}`;
-    functionFroSendingMessage(user,currentOpenedChat, userIdAndFriendsId, friendsIdUserId);
-    functionFroSendingMessage(
+    functionForSendingMessage(user,currentOpenedChat, userIdAndFriendsId, friendsIdUserId);
+    functionForSendingMessage(
       currentOpenedChat,
       user,
       userIdAndFriendsId,
       friendsIdUserId
     );
   };
-  const functionFroSendingMessage = async (users, users2, id1, id2) => {
+  const functionForSendingMessage = async (users, users2, id1, id2) => {
     let newMessage = {
       id: user.id,
       message: chatMessage,
@@ -429,12 +427,29 @@ export const ContextProvider = ({ children }) => {
   };
   const startNewChat = (id) => {
     const chat = friendList.find((chat) => chat.id === id);
+    let messageToShow = []
+if(chat.chats.length > 0){
+  const userId = user.id;
+  const friendsId = chat.id;
+  let id1 = `${userId}${friendsId}`;
+  let id2 = `${friendsId}${userId}`;
+ let checkIfMyMessageExist = chat.chats.find(
+    (item) => item.chatId === id1 || item.chatId === id2
+  );
+  if(checkIfMyMessageExist){
+messageToShow = checkIfMyMessageExist.message;
+  }else{
+   messageToShow = []
+  }
+}else{
+  messageToShow = [];
+}
     let newObj = {
       Fullname: chat.Fullname,
       Username: chat.Username,
       id: chat.id,
       profileImage: chat.profileImage,
-      message: [],
+      message: messageToShow
     };
     setCurrentOpenedChat(newObj);
     sidebarToShow("chat");
@@ -476,6 +491,8 @@ export const ContextProvider = ({ children }) => {
         startNewChat,
         settingsModal,
         setSettingsModal,
+        currentOpenedChatModal,
+        setCurrentOpenedChatModal
       }}
     >
       {children}
