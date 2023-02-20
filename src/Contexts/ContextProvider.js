@@ -48,7 +48,7 @@ export const ContextProvider = ({ children }) => {
   const [sidebarFriends, setSidebarFriends] = useState(false);
   const [sidebarProfile, setSidebarProfile] = useState(false);
   const [settingsModal, setSettingsModal] = useState(false);
-  const [currentOpenedChatModal, setCurrentOpenedChatModal] = useState(false)
+  const [currentOpenedChatModal, setCurrentOpenedChatModal] = useState(false);
   const sidebarToShow = (res) => {
     if (res === "chat") {
       setSidebarChat(true);
@@ -82,17 +82,17 @@ export const ContextProvider = ({ children }) => {
       setChatList(doc.data().chats);
     });
   }
-  useEffect(()=>{
+  useEffect(() => {
     getAllUsers();
-
-  },[user])
+  }, [user]);
   const getAllUsers = () => {
     const q = query(collection(db, "User"));
     const unsubscribe = onSnapshot(q, (querySnapshot) => {
       const array = [];
       querySnapshot.forEach((doc) => {
-        if(doc.id != user.id){
-          array.push(doc.data())}
+        if (doc.id != user.id) {
+          array.push(doc.data());
+        }
       });
       setFriendList(array);
     });
@@ -121,12 +121,17 @@ export const ContextProvider = ({ children }) => {
     setCurrentOpenedChat((prev) => {
       return { ...prev, message: [...prev.message, newMessage] };
     });
-   
+
     const userId = user.id;
     const friendsId = currentOpenedChat.id;
     let userIdAndFriendsId = `${userId}${friendsId}`;
     let friendsIdUserId = `${friendsId}${userId}`;
-    functionForSendingMessage(user,currentOpenedChat, userIdAndFriendsId, friendsIdUserId);
+    functionForSendingMessage(
+      user,
+      currentOpenedChat,
+      userIdAndFriendsId,
+      friendsIdUserId
+    );
     functionForSendingMessage(
       currentOpenedChat,
       user,
@@ -140,7 +145,7 @@ export const ContextProvider = ({ children }) => {
       message: chatMessage,
       time: Timestamp.fromDate(new Date()),
     };
-    let { Fullname, Username, id , profileImage} = users2;
+    let { Fullname, Username, id, profileImage } = users2;
 
     setChatMessage("");
     const person = doc(db, "User", users.id);
@@ -163,7 +168,11 @@ export const ContextProvider = ({ children }) => {
       );
       if (foundChat) {
         // update the message of the users
-        let NewPerson = chats.map(chat=> chat.chatId === id1 || chat.chatId ===id2 ? {...chat, message:[...chat.message, newMessage]}:chat)
+        let NewPerson = chats.map((chat) =>
+          chat.chatId === id1 || chat.chatId === id2
+            ? { ...chat, message: [...chat.message, newMessage] }
+            : chat
+        );
         await updateDoc(person, { chats: NewPerson });
       } else {
         // create a new chat and add to the chats
@@ -173,9 +182,10 @@ export const ContextProvider = ({ children }) => {
           id,
           profileImage,
           chatId: id1,
-          message: [ newMessage],
+          message: [newMessage],
         };
-        await updateDoc(person, { chats: [...chats,NewPerson] });      }
+        await updateDoc(person, { chats: [...chats, NewPerson] });
+      }
     }
   };
   const emailSignup = () => {
@@ -427,32 +437,60 @@ export const ContextProvider = ({ children }) => {
   };
   const startNewChat = (id) => {
     const chat = friendList.find((chat) => chat.id === id);
-    let messageToShow = []
-if(chat.chats.length > 0){
-  const userId = user.id;
-  const friendsId = chat.id;
-  let id1 = `${userId}${friendsId}`;
-  let id2 = `${friendsId}${userId}`;
- let checkIfMyMessageExist = chat.chats.find(
-    (item) => item.chatId === id1 || item.chatId === id2
-  );
-  if(checkIfMyMessageExist){
-messageToShow = checkIfMyMessageExist.message;
-  }else{
-   messageToShow = []
-  }
-}else{
-  messageToShow = [];
-}
+    let messageToShow = [];
+    if (chat.chats.length > 0) {
+      const userId = user.id;
+      const friendsId = chat.id;
+      let id1 = `${userId}${friendsId}`;
+      let id2 = `${friendsId}${userId}`;
+      let checkIfMyMessageExist = chat.chats.find(
+        (item) => item.chatId === id1 || item.chatId === id2
+      );
+      if (checkIfMyMessageExist) {
+        let conforming = user.chats.find((item) => item.id === id);
+        if (conforming === undefined) {
+          messageToShow = [];
+        }else{
+        messageToShow = (conforming.message);
+        }
+        // checkIfMyMessageExist.message
+      } else {
+        messageToShow = [];
+      }
+    } else {
+      messageToShow = [];
+    }
     let newObj = {
       Fullname: chat.Fullname,
       Username: chat.Username,
       id: chat.id,
       profileImage: chat.profileImage,
-      message: messageToShow
+      message: messageToShow,
     };
     setCurrentOpenedChat(newObj);
     sidebarToShow("chat");
+  };
+  const clearAllMessages = async () => {
+    let found = user.chats.find((item) => item.id === currentOpenedChat.id);
+    found = { ...found, message: [] };
+    let updatedChat = user.chats.map((item) =>
+      item.id === currentOpenedChat.id ? found : item
+    );
+    if (currentOpenedChat.id !== 0 && currentOpenedChat.id !== 1) {
+      const person = doc(db, "User", user.id);
+      await updateDoc(person, { chats: updatedChat });
+      setCurrentOpenedChat((prev) => ({ ...prev, message: [] }));
+    }
+  };
+  const deleteAChat = async () => {
+    const person = doc(db, "User", user.id);
+
+    let found = user.chats.filter((item) => item.id !== currentOpenedChat.id);
+    if (currentOpenedChat.id !== 0 && currentOpenedChat.id !== 1) {
+      await updateDoc(person, { chats: found });
+    }
+    setOpenedChat(false);
+    setCurrentOpenedChat({});
   };
   return (
     <StateContext.Provider
@@ -492,7 +530,9 @@ messageToShow = checkIfMyMessageExist.message;
         settingsModal,
         setSettingsModal,
         currentOpenedChatModal,
-        setCurrentOpenedChatModal
+        setCurrentOpenedChatModal,
+        clearAllMessages,
+        deleteAChat,
       }}
     >
       {children}

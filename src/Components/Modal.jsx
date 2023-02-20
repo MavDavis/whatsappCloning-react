@@ -1,7 +1,6 @@
 import React from 'react'
 
 const Modal = ({left, height, content, right}) => {
-  console.log(left);
   return (
     <div
     style={{

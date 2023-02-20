@@ -28,7 +28,7 @@ const ChatScroll = ({}) => {
   return (
     <>
       <ul className="chatScroll px-8 flex flex-col relative w-full min-h-full h-fit top-14 mb-28 ">
-        {currentOpenedChat.message.length && item}
+        {currentOpenedChat.message.length > 0 && item}
       </ul>
       <div ref={messagesEndRef} />
     </>

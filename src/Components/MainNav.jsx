@@ -7,11 +7,13 @@ import { AiOutlineArrowLeft } from "react-icons/ai";
 import { SearchIcon, MoreVertIcon } from "../IconsExport";
 const MainNav = () => {
   const { openedChat, currentOpenedChat, setShowChat, setOpenedChat, setChatMessage, setShowChatList, currentOpenedChatModal,
-    setCurrentOpenedChatModal, setCurrentOpenedChat } =
+    setCurrentOpenedChatModal,user, setCurrentOpenedChat,  clearAllMessages,deleteAChat
+  } =
     useStateContext();
   return (
     <Navbar
-      children={
+      children=
+   {currentOpenedChat !== {} && 
         <div
           // style={{ width: "calc(100vw - 410px)", left: "415px" }}
           className="flex z-1000 responsive dark:bg-dark-bg justify-between items-center p-4 fixed top-0  "
@@ -63,19 +65,13 @@ const MainNav = () => {
                   Close chats
                 </p>
                 <p
-                  // onClick={() => {
-                  //   setSettingsModal(false);
-                  //   logout();
-                  // }}
+                  onClick={clearAllMessages}
                   className=" cursor-pointer my-3"
                 >
                   Clear all messages
                 </p>
                 <p
-                  // onClick={() => {
-                  //   setSettingsModal(false);
-                  //   logout();
-                  // }}
+                  onClick={deleteAChat}
                   className=" cursor-pointer"
                 >
                   Delete chat
