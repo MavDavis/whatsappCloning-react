@@ -124,6 +124,7 @@ export const ContextProvider = ({ children }) => {
     setCurrentOpenedChat((prev) => {
       return { ...prev, message: [...prev.message, newMessage] };
     });
+    setShowEmoji(false)
 
     const userId = user.id;
     const friendsId = currentOpenedChat.id;
@@ -428,6 +429,7 @@ export const ContextProvider = ({ children }) => {
       console.log("loggedout");
       setLoggedIn(false);
     });
+    window.location.reload()
   }
   const login = () => {
     const { email, password } = formDetails;
@@ -496,6 +498,28 @@ export const ContextProvider = ({ children }) => {
     setOpenedChat(false);
     setCurrentOpenedChat({});
   };
+  const uploadProfileImage =  (file) =>{
+    const person = doc(db, "User", user.id);
+    const imgRef = ref(storage, `documents/${file.name}`);
+    uploadBytes(imgRef, file)
+    .then((snapshot) => {
+      getDownloadURL(imgRef).then((downloadURL) => {
+      updateDoc(person, {profileImage:downloadURL})
+      });
+    })
+
+  }
+  const updateUserUsername =( payload) =>{
+    const person = doc(db, "User", user.id);
+    updateDoc(person, {Fullname:payload})
+
+  }
+  const updateUserUserStatus =( payload) =>{
+
+    const person = doc(db, "User", user.id);
+    updateDoc(person, {whatsappStatus:payload})
+
+  }
   return (
     <StateContext.Provider
       value={{
@@ -514,6 +538,8 @@ export const ContextProvider = ({ children }) => {
         formDetails,
         setFormDetails,
         currentOpenedChat,
+        updateUserUsername,
+        updateUserUserStatus,
         setCurrentOpenedChat,
         openChat,
         sendMessage,
@@ -538,7 +564,8 @@ export const ContextProvider = ({ children }) => {
         clearAllMessages,
         deleteAChat,
         showEmoji,
-         setShowEmoji
+         setShowEmoji,
+         uploadProfileImage
       }}
     >
       {children}

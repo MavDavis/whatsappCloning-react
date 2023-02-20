@@ -1,10 +1,12 @@
 import React from "react";
 import { AccountCircleIcon } from "../IconsExport";
+import { TiTick } from "react-icons/ti";
 import { useStateContext } from "../Contexts/ContextProvider";
 const ActiveChats = () => {
   const {
     openedChat,
     openChat,
+    user,
     setOpenedChat,
     setChatMessage,
     setShowChatList,
@@ -53,10 +55,14 @@ const ActiveChats = () => {
                 <div className="border-b border-b-slate-600 py-2 flex w-full h-full relative ml-3 text-slate-200">
                   <div className="flex flex-col">
                     <p className="text-lg font-normal">{chat.Fullname}</p>
-                    {chat.message.length> 0 && (
-                      <p className="text-sm text-slate-300 font-thin">
-                        {chat.message[chat.message.length - 1].message}
-                      </p>
+                    {chat.message.length > 0 && (
+                      <div className="flex items-center">
+                        {chat.message[chat.message.length - 1].id ===
+                          user.id && <TiTick  className="text-teal-600 text-xl"/>}
+                        <p className="text-sm text-slate-300 font-thin">
+                          {chat.message[chat.message.length - 1].message}
+                        </p>
+                      </div>
                     )}
                     <p></p>
                   </div>
