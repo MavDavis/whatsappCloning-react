@@ -49,6 +49,7 @@ export const ContextProvider = ({ children }) => {
   const [sidebarProfile, setSidebarProfile] = useState(false);
   const [settingsModal, setSettingsModal] = useState(false);
   const [currentOpenedChatModal, setCurrentOpenedChatModal] = useState(false);
+  const [showEmoji, setShowEmoji] = useState(false)
   const sidebarToShow = (res) => {
     if (res === "chat") {
       setSidebarChat(true);
@@ -111,6 +112,8 @@ export const ContextProvider = ({ children }) => {
   const openChat = (id) => {
     const chat = chatList.find((chat) => chat.id === id);
     setCurrentOpenedChat(chat);
+    setShowEmoji(false)
+
   };
   const sendMessage = () => {
     let newMessage = {
@@ -469,6 +472,7 @@ export const ContextProvider = ({ children }) => {
     };
     setCurrentOpenedChat(newObj);
     sidebarToShow("chat");
+    setShowEmoji(false)
   };
   const clearAllMessages = async () => {
     let found = user.chats.find((item) => item.id === currentOpenedChat.id);
@@ -533,6 +537,8 @@ export const ContextProvider = ({ children }) => {
         setCurrentOpenedChatModal,
         clearAllMessages,
         deleteAChat,
+        showEmoji,
+         setShowEmoji
       }}
     >
       {children}

@@ -2,12 +2,21 @@ import React, { useState } from "react";
 import MainNav from "./MainNav";
 import image from "../assets/bgImage";
 import { useStateContext } from "../Contexts/ContextProvider";
-
+import EmojiPicker from "emoji-picker-react";
+import {RiCloseLine} from 'react-icons/ri'
 import MessageFooter from "./MessageFooter";
 import ChatScroll from "./ChatScroll";
 const Main = () => {
-  const { openedChat, currentOpenedChat, loggedIn, user } = useStateContext();
-
+  const {
+    openedChat,
+    currentOpenedChat,
+    loggedIn,
+    user,
+    showEmoji,
+    setChatMessage,
+    setShowEmoji,
+  } = useStateContext();
+  const dark = true;
   return (
     <div className="relative w-full h-full">
       {!openedChat ? (
@@ -42,6 +51,19 @@ const Main = () => {
             <MainNav />
             <ChatScroll currentOpenedChat={currentOpenedChat} />
             <MessageFooter />
+            {showEmoji && (   <div className="w-full flex relative">
+             
+            
+                <EmojiPicker className='relative'
+                  width={"100%"}
+                  onEmojiClick = {(emojiData) =>{
+                    setChatMessage((prev)=> prev + emojiData.emoji);
+                  }}
+                  height={400}
+                  theme={dark ? "dark" : "light"}
+                />
+            
+            </div>  )}
           </div>
         </div>
       )}
