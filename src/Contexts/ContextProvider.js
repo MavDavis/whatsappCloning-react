@@ -50,6 +50,7 @@ export const ContextProvider = ({ children }) => {
   const [settingsModal, setSettingsModal] = useState(false);
   const [currentOpenedChatModal, setCurrentOpenedChatModal] = useState(false);
   const [showEmoji, setShowEmoji] = useState(false)
+  const [showStatus, setShowStatus] = useState(false)
   const sidebarToShow = (res) => {
     if (res === "chat") {
       setSidebarChat(true);
@@ -565,7 +566,8 @@ export const ContextProvider = ({ children }) => {
         deleteAChat,
         showEmoji,
          setShowEmoji,
-         uploadProfileImage
+         uploadProfileImage,
+         showStatus, setShowStatus
       }}
     >
       {children}

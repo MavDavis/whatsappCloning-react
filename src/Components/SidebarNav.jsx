@@ -6,7 +6,7 @@ import { AccountCircleIcon, DonutLargeIcon } from "../IconsExport";
 
 import { useStateContext } from "../Contexts/ContextProvider";
 const SidebarNav = () => {
-  const { logout, user, sidebarToShow, settingsModal, setSettingsModal } =
+  const { logout, user, sidebarToShow, settingsModal, setSettingsModal, setShowStatus } =
     useStateContext();
   const { profileImage } = user;
   return (
@@ -41,7 +41,7 @@ const SidebarNav = () => {
                   className="text-2xl text-slate-500 cursor-not-allowed "
                   disabled={true}
                 />
-                <DonutLargeIcon className="mx-5 cursor-pointer" />
+                <DonutLargeIcon className="mx-5 cursor-pointer" onClick={()=>{setShowStatus(true)}} />
                 <BsFillChatLeftTextFill
                   className="mr-5 cursor-pointer"
                   onClick={() => {

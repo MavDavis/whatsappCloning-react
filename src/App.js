@@ -6,9 +6,15 @@ import { Signup, Login } from "./Pages";
 import { FiSettings } from "react-icons/fi";
 import { AiOutlineArrowLeft } from "react-icons/ai";
 import Loading from "react-loading-components";
+import AOS from "aos";
+import "aos/dist/aos.css";
+import { RiCloseLine } from "react-icons/ri";
 
 import { useStateContext } from "./Contexts/ContextProvider";
 const App = () => {
+  useEffect(() => {
+    AOS.init();
+  }, []);
   const {
     currentMode,
     showChat,
@@ -19,8 +25,7 @@ const App = () => {
     setSettingsModal,
     settingsModal,
     setCurrentOpenedChatModal,
-    currentOpenedChatModal
-
+    currentOpenedChatModal,
   } = useStateContext();
   const [size, setSize] = useState(window.innerWidth);
 
@@ -43,14 +48,17 @@ const App = () => {
   }, [size]);
 
   return (
-    <div className={currentMode === "Dark" ? "dark" : ""} onClick={()=>{
-      if(settingsModal === true){
-        setSettingsModal(false)
-      }
-      if(currentOpenedChatModal){
-        setCurrentOpenedChatModal(false)
-      }
-    }}>
+    <div
+      className={currentMode === "Dark" ? "dark" : ""}
+      onClick={() => {
+        if (settingsModal === true) {
+          setSettingsModal(false);
+        }
+        if (currentOpenedChatModal) {
+          setCurrentOpenedChatModal(false);
+        }
+      }}
+    >
       {!loading ? (
         <BrowserRouter>
           <Routes>
@@ -75,26 +83,39 @@ const App = () => {
 };
 
 const Home = () => {
-  const { showChat, showChatList, loggedIn } = useStateContext();
+  const { showChat, showChatList, loggedIn, showStatus, setShowStatus } =
+    useStateContext();
   if (!loggedIn) {
     return <Navigate replace to="/login" />;
   } else {
-    return (
-      <div className="flex relative dark:bg-darkest-bg">
-        <div
-          className="fixed right-4 bottom-4"
-          style={{ zIndex: "1000" }}
-        ></div>
-        <div className=" fixed ">{showChatList && <Sidebar />}</div>
+    if (showStatus) {
+      return (
+        <>
+          <div className="relative w-full" >
+            <div className="absolute top-5 right-5">
+              <RiCloseLine className="cursor-pointer text-2xl font-bold " onClick={()=>{setShowStatus(false)}} />
+            </div>
+          </div>
+        </>
+      );
+    } else {
+      return (
+        <div className="flex relative dark:bg-darkest-bg">
+          <div
+            className="fixed right-4 bottom-4"
+            style={{ zIndex: "1000" }}
+          ></div>
+          <div className=" fixed ">{showChatList && <Sidebar />}</div>
 
-        <div
-          className={` h-screen   
+          <div
+            className={` h-screen   
       `}
-        >
-          {showChat && <Main />}
+          >
+            {showChat && <Main />}
+          </div>
         </div>
-      </div>
-    );
+      );
+    }
   }
 };
 const Error = () => {

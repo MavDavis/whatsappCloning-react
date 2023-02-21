@@ -9,7 +9,7 @@ const Friends = () => {
     useStateContext();
 
   return (
-    <>
+    <div data-aos="zoom-in-left">
       <Navbar
         children={
           <div className="responsive2 flex z-1000 h-24 dark:bg-dark-bg justify-between items-center p-4 fixed top-0 left-0 ">
@@ -61,7 +61,7 @@ const Friends = () => {
           </li>
         ))}
       </ul>
-    </>
+    </div>
   );
 };
 

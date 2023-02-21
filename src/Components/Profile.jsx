@@ -34,7 +34,7 @@ const Profile = () => {
     updateUserUserStatus(userStatus);
   };
   return (
-    <>
+    <div  data-aos="fade-right">
       <Navbar
         children={
           <div className="responsive2 flex z-1000 h-28 dark:bg-dark-bg justify-between items-center pt-16 pb-2 px-4 fixed top-0 left-0 ">
@@ -141,7 +141,7 @@ const Profile = () => {
           </div>
         </div>
       )}
-    </>
+    </div>
   );
 };
 

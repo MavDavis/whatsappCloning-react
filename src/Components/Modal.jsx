@@ -3,6 +3,7 @@ import React from 'react'
 const Modal = ({left, height, content, right}) => {
   return (
     <div
+    data-aos="fade-right"
     style={{
       zIndex: "100000",
       left: left,
