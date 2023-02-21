@@ -5,9 +5,17 @@ import { AiOutlineArrowLeft } from "react-icons/ai";
 
 import { Navbar } from "./";
 const Friends = () => {
-  const { friendList, sidebarToShow, startNewChat, setOpenedChat, setChatMessage } =
+  const { friendList, sidebarToShow, startNewChat, setOpenedChat, setChatMessage,setShowChat,setShowChatList } =
     useStateContext();
-
+const friendOpener = ()=>{
+  if (window.innerWidth < 640) {
+    setShowChat(true);
+    setShowChatList(false);
+  } else {
+    setShowChat(true);
+    setShowChatList(true);
+  }
+}
   return (
     <div data-aos="zoom-in-left">
       <Navbar
@@ -31,6 +39,7 @@ const Friends = () => {
               startNewChat(chat.id);
               setOpenedChat(true);
               setChatMessage("");
+              friendOpener()
             }}
           >
             <div className="flex items-center h-fit ">
