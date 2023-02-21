@@ -15,7 +15,7 @@ const ActiveStatus = () => {
         {status.map((stat, ind) => (
           <li
             key={ind}
-            className="  pl-3 cursor-pointer dark:hover:bg-dark-bg"
+            className="  pl-3 cursor-pointer dark:hover:bg-dark-bg mb-4"
             onClick={() => {
               open(stat.user.id);
             }}

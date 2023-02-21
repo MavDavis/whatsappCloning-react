@@ -60,7 +60,7 @@ const MainNav = () => {
                      setChatMessage('')
                      setCurrentOpenedChat({})
                   }}
-                  className=" cursor-pointer"
+                  className=" cursor-pointer sm:block hidden"
                 >
                   Close chats
                 </p>
