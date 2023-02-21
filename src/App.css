@@ -53,3 +53,10 @@ left: 0;
     left: 0;
   }
 }
+.statusDonut{
+  font-size: 10px !important;
+  font-weight: lighter;
+  height: 7rem;
+  width: 7rem;
+
+}

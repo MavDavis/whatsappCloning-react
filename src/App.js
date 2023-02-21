@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import "./App.css";
-import { Navbar, Sidebar, Main } from "./Components";
+import { Navbar, Sidebar, Main, StatusMain, StatusSidebar } from "./Components";
 import { BrowserRouter, Routes, Route, Link, Navigate } from "react-router-dom";
 import { Signup, Login } from "./Pages";
 import { FiSettings } from "react-icons/fi";
@@ -8,7 +8,6 @@ import { AiOutlineArrowLeft } from "react-icons/ai";
 import Loading from "react-loading-components";
 import AOS from "aos";
 import "aos/dist/aos.css";
-import { RiCloseLine } from "react-icons/ri";
 
 import { useStateContext } from "./Contexts/ContextProvider";
 const App = () => {
@@ -91,9 +90,20 @@ const Home = () => {
     if (showStatus) {
       return (
         <>
-          <div className="relative w-full" >
-            <div className="absolute top-5 right-5">
-              <RiCloseLine className="cursor-pointer text-2xl font-bold " onClick={()=>{setShowStatus(false)}} />
+          <div className="flex w-full relative dark:bg-darkest-bg">
+            <div
+              className="fixed right-4 bottom-4"
+              style={{ zIndex: "1000" }}
+            ></div>
+            <div className=" fixed ">
+              <StatusSidebar />
+            </div>
+
+            <div
+              className={` h-screen   hidden sm:block
+      `}
+            >
+              <StatusMain />
             </div>
           </div>
         </>

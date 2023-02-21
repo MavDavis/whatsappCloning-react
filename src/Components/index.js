@@ -8,4 +8,7 @@ import ActiveChats from "./ActiveChats";
 import Searcbox from "./Searcbox";
 import SidebarNav from "./SidebarNav";
 import Profile from "./Profile";
-export { Friends, Profile, Sidebar, Navbar,Modal, Main, MainNav, SidebarNav, ActiveChats, Searcbox };
+import StatusMain from "./status/StatusMain";
+import StatusSidebar from "./status/StatusSidebar";
+import ActiveStatus from "./status/ActiveStatus";
+export { Friends, Profile,ActiveStatus, Sidebar, Navbar,Modal, Main, MainNav, SidebarNav, ActiveChats, Searcbox, StatusMain, StatusSidebar };

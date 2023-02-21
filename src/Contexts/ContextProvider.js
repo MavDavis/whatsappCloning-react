@@ -49,8 +49,9 @@ export const ContextProvider = ({ children }) => {
   const [sidebarProfile, setSidebarProfile] = useState(false);
   const [settingsModal, setSettingsModal] = useState(false);
   const [currentOpenedChatModal, setCurrentOpenedChatModal] = useState(false);
-  const [showEmoji, setShowEmoji] = useState(false)
-  const [showStatus, setShowStatus] = useState(false)
+  const [showEmoji, setShowEmoji] = useState(false);
+  const [showStatus, setShowStatus] = useState(false);
+  const [status, setStatus] = useState([])
   const sidebarToShow = (res) => {
     if (res === "chat") {
       setSidebarChat(true);
@@ -86,6 +87,7 @@ export const ContextProvider = ({ children }) => {
   }
   useEffect(() => {
     getAllUsers();
+    getStatus()
   }, [user]);
   const getAllUsers = () => {
     const q = query(collection(db, "User"));
@@ -113,8 +115,7 @@ export const ContextProvider = ({ children }) => {
   const openChat = (id) => {
     const chat = chatList.find((chat) => chat.id === id);
     setCurrentOpenedChat(chat);
-    setShowEmoji(false)
-
+    setShowEmoji(false);
   };
   const sendMessage = () => {
     let newMessage = {
@@ -125,7 +126,7 @@ export const ContextProvider = ({ children }) => {
     setCurrentOpenedChat((prev) => {
       return { ...prev, message: [...prev.message, newMessage] };
     });
-    setShowEmoji(false)
+    setShowEmoji(false);
 
     const userId = user.id;
     const friendsId = currentOpenedChat.id;
@@ -430,7 +431,7 @@ export const ContextProvider = ({ children }) => {
       console.log("loggedout");
       setLoggedIn(false);
     });
-    window.location.reload()
+    window.location.reload();
   }
   const login = () => {
     const { email, password } = formDetails;
@@ -456,8 +457,8 @@ export const ContextProvider = ({ children }) => {
         let conforming = user.chats.find((item) => item.id === id);
         if (conforming === undefined) {
           messageToShow = [];
-        }else{
-        messageToShow = (conforming.message);
+        } else {
+          messageToShow = conforming.message;
         }
         // checkIfMyMessageExist.message
       } else {
@@ -475,7 +476,7 @@ export const ContextProvider = ({ children }) => {
     };
     setCurrentOpenedChat(newObj);
     sidebarToShow("chat");
-    setShowEmoji(false)
+    setShowEmoji(false);
   };
   const clearAllMessages = async () => {
     let found = user.chats.find((item) => item.id === currentOpenedChat.id);
@@ -499,28 +500,49 @@ export const ContextProvider = ({ children }) => {
     setOpenedChat(false);
     setCurrentOpenedChat({});
   };
-  const uploadProfileImage =  (file) =>{
+  const uploadProfileImage = (file) => {
     const person = doc(db, "User", user.id);
     const imgRef = ref(storage, `documents/${file.name}`);
-    uploadBytes(imgRef, file)
-    .then((snapshot) => {
+    uploadBytes(imgRef, file).then((snapshot) => {
       getDownloadURL(imgRef).then((downloadURL) => {
-      updateDoc(person, {profileImage:downloadURL})
+        updateDoc(person, { profileImage: downloadURL });
       });
-    })
-
-  }
-  const updateUserUsername =( payload) =>{
+    });
+  };
+  const updateUserUsername = (payload) => {
     const person = doc(db, "User", user.id);
-    updateDoc(person, {Fullname:payload})
-
-  }
-  const updateUserUserStatus =( payload) =>{
-
+    updateDoc(person, { Fullname: payload });
+  };
+  const updateUserUserStatus = (payload) => {
     const person = doc(db, "User", user.id);
-    updateDoc(person, {whatsappStatus:payload})
+    updateDoc(person, { whatsappStatus: payload });
+  };
+  const uploadStatus =async (file) => {
+    const usersStatus = await getDoc(doc(db, "Status", user.id));
 
-  }
+    const imgRef = ref(storage, `documents/${file.name}`);
+    uploadBytes(imgRef, file).then((snapshot) => {
+      getDownloadURL(imgRef).then((downloadURL) => {
+        if (usersStatus.exists()) {
+          updateDoc(doc(db, "Status", user.id), {
+            images: [...usersStatus.data().images, downloadURL],
+          });
+        } else {
+          setDoc(doc(db, "Status", user.id), { images: [downloadURL], user:user });
+        }
+      });
+    });
+  };
+  const getStatus = () => {
+    const q = query(collection(db, "Status"));
+    const unsubscribe = onSnapshot(q, (querySnapshot) => {
+      const array = [];
+      querySnapshot.forEach((doc) => {
+          array.push(doc.data());
+      });
+      setStatus(array);
+    });
+  };
   return (
     <StateContext.Provider
       value={{
@@ -565,9 +587,12 @@ export const ContextProvider = ({ children }) => {
         clearAllMessages,
         deleteAChat,
         showEmoji,
-         setShowEmoji,
-         uploadProfileImage,
-         showStatus, setShowStatus
+        setShowEmoji,
+        uploadProfileImage,
+        showStatus,
+        setShowStatus,
+        uploadStatus,
+        status
       }}
     >
       {children}

@@ -23,7 +23,7 @@ const Searcbox = () => {
         onFocus={(e) => {
           setSearching(true);
         }}
-        placeholder="start a new chat"
+        placeholder="search an existing chat"
         className="dark:bg-dark-bg outline-0 dark:text-slate-200 p-4 pl-12 text-sm rounded-lg w-9/10 h-6 relative"
       />
     </div>
