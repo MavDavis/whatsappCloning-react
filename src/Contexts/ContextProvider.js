@@ -51,7 +51,9 @@ export const ContextProvider = ({ children }) => {
   const [currentOpenedChatModal, setCurrentOpenedChatModal] = useState(false);
   const [showEmoji, setShowEmoji] = useState(false);
   const [showStatus, setShowStatus] = useState(false);
-  const [status, setStatus] = useState([])
+  const [status, setStatus] = useState([]);
+  const [showStatusImage, setShowStatusImage] = useState(false);
+  const [clickedStatus, setClickedStatus] = useState({});
   const sidebarToShow = (res) => {
     if (res === "chat") {
       setSidebarChat(true);
@@ -87,7 +89,7 @@ export const ContextProvider = ({ children }) => {
   }
   useEffect(() => {
     getAllUsers();
-    getStatus()
+    getStatus();
   }, [user]);
   const getAllUsers = () => {
     const q = query(collection(db, "User"));
@@ -517,7 +519,7 @@ export const ContextProvider = ({ children }) => {
     const person = doc(db, "User", user.id);
     updateDoc(person, { whatsappStatus: payload });
   };
-  const uploadStatus =async (file) => {
+  const uploadStatus = async (file) => {
     const usersStatus = await getDoc(doc(db, "Status", user.id));
 
     const imgRef = ref(storage, `documents/${file.name}`);
@@ -528,7 +530,10 @@ export const ContextProvider = ({ children }) => {
             images: [...usersStatus.data().images, downloadURL],
           });
         } else {
-          setDoc(doc(db, "Status", user.id), { images: [downloadURL], user:user });
+          setDoc(doc(db, "Status", user.id), {
+            images: [downloadURL],
+            user: user,
+          });
         }
       });
     });
@@ -538,7 +543,7 @@ export const ContextProvider = ({ children }) => {
     const unsubscribe = onSnapshot(q, (querySnapshot) => {
       const array = [];
       querySnapshot.forEach((doc) => {
-          array.push(doc.data());
+        array.push(doc.data());
       });
       setStatus(array);
     });
@@ -592,7 +597,11 @@ export const ContextProvider = ({ children }) => {
         showStatus,
         setShowStatus,
         uploadStatus,
-        status
+        status,
+        showStatusImage,
+        clickedStatus,
+        setClickedStatus,
+        setShowStatusImage,
       }}
     >
       {children}

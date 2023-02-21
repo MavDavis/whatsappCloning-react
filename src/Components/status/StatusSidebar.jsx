@@ -3,8 +3,9 @@ import { useStateContext } from '../../Contexts/ContextProvider'
 import { AccountCircleIcon } from '../../IconsExport'
 import {BsPlusCircle} from 'react-icons/bs'
 import {ActiveStatus} from '../'
+import {AiOutlineCloseCircle} from 'react-icons/ai'
 const StatusSidebar = () => {
-  const {user, uploadStatus} = useStateContext()
+  const {user, uploadStatus,setShowStatus} = useStateContext()
   const statusPhoto = useRef(null);
   const handleFileChange =()=>{
     uploadStatus(statusPhoto.current.files[0])
@@ -35,6 +36,9 @@ const StatusSidebar = () => {
             </p>
             </div>
             <div className="absolute w-full  p-6  h-full top-0 bg-transparent left-0 opacity-100 flex items-center justify-end ">
+            <AiOutlineCloseCircle className='dark:text-slate-200 mt-6 mr-3 text-3xl sm:hidden flex cursor-pointer'   onClick={() => {
+            setShowStatus(false);
+          }}/>
             <input
               type="file"
               name="inputTag"
@@ -44,7 +48,8 @@ const StatusSidebar = () => {
               onChange={handleFileChange}
             />
             <label htmlFor="statusPhoto">
-            <div className="rounded-full w-8 h-8 mt-8 cursor-pointer"><BsPlusCircle className='dark:text-slate-200 text-2xl'/></div></label>
+            <div className="rounded-full w-8 h-8 mt-8 cursor-pointer"><BsPlusCircle className='dark:text-slate-200 text-2xl'/></div>
+            </label>
             </div>
             </div>
             <ActiveStatus/>

@@ -11,4 +11,5 @@ import Profile from "./Profile";
 import StatusMain from "./status/StatusMain";
 import StatusSidebar from "./status/StatusSidebar";
 import ActiveStatus from "./status/ActiveStatus";
-export { Friends, Profile,ActiveStatus, Sidebar, Navbar,Modal, Main, MainNav, SidebarNav, ActiveChats, Searcbox, StatusMain, StatusSidebar };
+import SwiperJs from "./status/SwiperJs";
+export { Friends, Profile,ActiveStatus, Sidebar, Navbar,Modal, Main, MainNav, SidebarNav, ActiveChats, Searcbox, StatusMain, StatusSidebar,SwiperJs };

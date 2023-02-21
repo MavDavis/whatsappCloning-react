@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import "./App.css";
-import { Navbar, Sidebar, Main, StatusMain, StatusSidebar } from "./Components";
+import { Navbar, Sidebar, Main, StatusMain, StatusSidebar,SwiperJs } from "./Components";
 import { BrowserRouter, Routes, Route, Link, Navigate } from "react-router-dom";
 import { Signup, Login } from "./Pages";
 import { FiSettings } from "react-icons/fi";
@@ -8,7 +8,6 @@ import { AiOutlineArrowLeft } from "react-icons/ai";
 import Loading from "react-loading-components";
 import AOS from "aos";
 import "aos/dist/aos.css";
-
 import { useStateContext } from "./Contexts/ContextProvider";
 const App = () => {
   useEffect(() => {
@@ -82,12 +81,13 @@ const App = () => {
 };
 
 const Home = () => {
-  const { showChat, showChatList, loggedIn, showStatus, setShowStatus } =
+  const { showChat, showChatList, loggedIn, showStatus, showStatusImage } =
     useStateContext();
   if (!loggedIn) {
     return <Navigate replace to="/login" />;
   } else {
     if (showStatus) {
+      if(!showStatusImage){
       return (
         <>
           <div className="flex w-full relative dark:bg-darkest-bg">
@@ -107,7 +107,10 @@ const Home = () => {
             </div>
           </div>
         </>
-      );
+      )}
+      if(showStatusImage){
+        return <SwiperJs/>
+      }
     } else {
       return (
         <div className="flex relative dark:bg-darkest-bg">
