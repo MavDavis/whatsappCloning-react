@@ -6,7 +6,7 @@ import { MdDonutLarge } from "react-icons/md";
 const StatusMain = () => {
   const { setShowStatus } = useStateContext();
   return (
-    <div className=" responsive fixed overflow-y-auto top-0 min-h-fit h-full ">
+    <div className=" responsive fixed overflow-y-auto top-0 min-h-fit h-full dark:bg-darkest-bg bg-light-header-bg">
       <div className="absolute top-5 right-5">
         <RiCloseLine
           className="cursor-pointer text-3xl font-bold dark:text-slate-200"

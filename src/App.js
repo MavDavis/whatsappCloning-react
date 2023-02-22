@@ -113,7 +113,7 @@ const Home = () => {
       }
     } else {
       return (
-        <div className="flex relative dark:bg-darkest-bg">
+        <div className="flex relative dark:bg-darkest-bg bg-white">
           <div
             className="fixed right-4 bottom-4"
             style={{ zIndex: "1000" }}

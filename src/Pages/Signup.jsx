@@ -6,7 +6,7 @@ import { month, date, year } from "../assets/dummyData";
 import { Link } from "react-router-dom";
 import { useStateContext } from "../Contexts/ContextProvider";
 import { Navigate } from "react-router-dom";
-
+import logo from '../assets/logowhatsapp.png'
 const Signup = () => {
   const [passwordType, setPasswordType] = useState("password");
   const togglePasswordType = () => {
@@ -35,11 +35,11 @@ const Signup = () => {
     return (
       <div className="flex min-h-screen w-full  relative dark:bg-darkest-bg bg-white justify-center ">
         <div className="flex min-h-full flex-col justify-center items-center py-5 sm:px-6 lg:px-8 relative w-full">
-          <div className="relative w-full">
-            <h2 className="mt-3 text-center text-3xl font-bold tracking-tight dark:text-white text-gray-900">
+        <div className="relative w-full flex items-center justify-center mt-3">
+            <h2 className=" text-center text-3xl font-bold tracking-tight dark:text-white text-gray-900">
               Sign up your account
             </h2>
-            <p className="mt-2 text-center text-sm text-gray-600"></p>
+            <img className="w-10 h-10 ml-2" src={logo} alt="whatsapp logo" />
           </div>
 
           <div className="mt-8 w-full sm:w-1/2 px-8">
@@ -191,7 +191,7 @@ const Signup = () => {
               </div>
             </div>
           </div>
-          <p className="flex items-center text-slate-200 mt-3">
+          <p className="flex items-center text-slate-800 dark:text-slate-200 mt-3">
             Signed up already?{" "}
             <Link
               className="text-teal-600 hover:tracking-wide ml-2"

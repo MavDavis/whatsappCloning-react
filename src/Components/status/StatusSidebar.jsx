@@ -11,8 +11,8 @@ const StatusSidebar = () => {
     uploadStatus(statusPhoto.current.files[0])
   }
   return (
-    <div className="sm:w-400 w-screen h-screen dark:bg-dark-bg  border-r-1 border-r-slate-600  overflow-x-hidden  overflow-y-auto md:overflow-y-hidden  md:hover:overflow-y-auto">
-         <div className="flex items-center mx-3 pt-16 pb-8 border-b-1 border-slate-600 relative">
+    <div className="sm:w-400 w-screen h-screen dark:bg-dark-bg  bg-white border-r-1 dark:border-r-slate-600 border-r-slate-300  overflow-x-hidden  overflow-y-auto md:overflow-y-hidden  md:hover:overflow-y-auto">
+         <div className="flex items-center px-3 pt-16 pb-8 border-b-1 dark:border-slate-600 dark:bg-dark-bg border-slate-300 bg-light-header-bg relative">
             <div className="rounded-full w-8 h-8 border">
               {user.profileImage.length ? (
                 <img

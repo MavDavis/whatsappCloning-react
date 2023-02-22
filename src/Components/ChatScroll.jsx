@@ -17,9 +17,9 @@ const ChatScroll = ({}) => {
         style={{ maxWidth: "60%" }}
         className={`${
           item.id === user.id
-            ? "bg-teal-green-dark  flex  ml-auto "
-            : "bg-dark-bg  flex   "
-        } dark:text-slate-200 my-1 w-fit p-2 text-sm rounded-lg`}
+            ? "dark:bg-teal-green-dark bg-light-text-green dark:text-slate-200 text-slate-800  flex  ml-auto "
+            : "dark:bg-dark-bg bg-white dark:text-slate-300 text-slate-800  flex   "
+        }  my-1 w-fit p-2 text-sm rounded-lg shadow-sm`}
       >
         {item.message}
       </li>

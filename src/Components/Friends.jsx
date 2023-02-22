@@ -20,9 +20,9 @@ const friendOpener = ()=>{
     <div data-aos="zoom-in-left">
       <Navbar
         children={
-          <div className="responsive2 flex z-1000 h-24 dark:bg-dark-bg justify-between items-center p-4 fixed top-0 left-0 ">
+          <div className="responsive2 flex z-1000 h-24 dark:bg-dark-bg bg-light-bg-green dark:text-slate-300 text-white  justify-between items-center p-4 fixed top-0 left-0 ">
             <AiOutlineArrowLeft
-              className="cursor-pointer text-teal-600 text-2xl"
+              className="cursor-pointer dark:text-teal-600 text-white text-2xl"
               onClick={() => {
                 sidebarToShow("chat");
               }}
@@ -34,7 +34,7 @@ const friendOpener = ()=>{
         {friendList.map((chat, ind) => (
           <li
             key={ind}
-            className="  pl-3  cursor-pointer dark:hover:bg-dark-bg"
+            className="  pl-3  cursor-pointer dark:hover:bg-dark-bg hover:bg-light-header-bg"
             onClick={() => {
               startNewChat(chat.id);
               setOpenedChat(true);
@@ -57,10 +57,10 @@ const friendOpener = ()=>{
                   />
                 )}
               </div>
-              <div className="border-b border-b-slate-600 py-2 flex w-full h-full relative ml-3 text-slate-200">
+              <div className="border-b dark:border-b-slate-600 border-b-slate-200 py-2 flex w-full h-full relative ml-3 text-slate-800 dark:text-slate-200">
                 <div className="flex flex-col">
                   <p className="text-lg font-normal">{chat.Fullname}</p>
-                  <p className="text-slate-500 mt-1 font-light text-small">
+                  <p className="dark:text-slate-500 mt-1 font-light text-small">
                     {chat.whatsappStatus.slice(0, 20)}
                     {chat.whatsappStatus.length > 20 && <span>...</span>}
                   </p>

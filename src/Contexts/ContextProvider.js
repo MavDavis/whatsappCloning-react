@@ -104,6 +104,8 @@ export const ContextProvider = ({ children }) => {
     });
   };
   useEffect(() => {
+    const it = localStorage.getItem("whatsappmode");
+    it ? setCurrentMode(it) : setCurrentMode("Dark");
     onAuthStateChanged(firebaseAuth, (user) => {
       if (user) {
         userDetail();
@@ -113,7 +115,9 @@ export const ContextProvider = ({ children }) => {
       }
     });
   }, []);
-
+  useEffect(() => {
+    localStorage.setItem("whatsappmode", currentMode);
+  }, [currentMode]);
   const openChat = (id) => {
     const chat = chatList.find((chat) => chat.id === id);
     setCurrentOpenedChat(chat);
@@ -572,6 +576,7 @@ export const ContextProvider = ({ children }) => {
         openChat,
         sendMessage,
         currentMode,
+        setCurrentMode,
         chatMessage,
         logout,
         addingUser,

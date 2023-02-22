@@ -4,11 +4,13 @@ import { FaRegEyeSlash } from "react-icons/fa";
 import { Link, Navigate } from "react-router-dom";
 import { FcGoogle } from "react-icons/fc";
 import { useStateContext } from "../Contexts/ContextProvider";
+import logo from '../assets/logowhatsapp.png'
+
 const Login = () => {
   const [passwordType, setPasswordType] = useState("password");
-  const { loggedIn, googleSignIn, logout, formDetails, setFormDetails,login } =
+  const { loggedIn, googleSignIn, logout, formDetails, setFormDetails, login } =
     useStateContext();
-    const {  password, email } = formDetails;
+  const { password, email } = formDetails;
 
   const togglePasswordType = () => {
     passwordType === "password"
@@ -25,7 +27,7 @@ const Login = () => {
   };
   const submitForm = (e) => {
     e.preventDefault();
-    login()
+    login();
   };
   if (loggedIn) {
     return <Navigate replace to="/" />;
@@ -33,11 +35,11 @@ const Login = () => {
     return (
       <div className="flex min-h-screen w-full  relative dark:bg-darkest-bg bg-white justify-center">
         <div className="flex min-h-full flex-col justify-center items-center py-12 sm:px-6 lg:px-8 relative w-full">
-          <div className="relative w-full">
-            <h2 className="mt-3 text-center text-3xl font-bold tracking-tight dark:text-light-bg text-white">
+          <div className="relative w-full flex items-center justify-center mt-3">
+            <h2 className=" text-center text-3xl font-bold tracking-tight dark:text-light-bg dark:text-white text-slate-800">
               Sign in to your account
             </h2>
-            <p className="mt-2 text-center text-sm text-gray-600"></p>
+            <img className="w-10 h-10 ml-2" src={logo} alt="whatsapp logo" />
           </div>
 
           <div className="mt-8 w-full sm:w-1/2 px-8">
@@ -46,7 +48,7 @@ const Login = () => {
                 {/* <button onClick={logout}>logout</button> */}
                 <button
                   onClick={googleSignIn}
-                  className="flex justify-center items-center ml-2 hover:transition-all hover:bg-dark-bg bg-darker-bg w-full rounded-lg px-3 py-2 text-slate-300 text-center"
+                  className="flex justify-center items-center ml-2 hover:transition-all bg-light-header-bg hover:light-bg dark:hover:bg-dark-bg dark:bg-darker-bg w-full rounded-lg px-3 py-2 dark:text-slate-300 text-center"
                 >
                   Sign in with
                   <span className="flex items-center ml-2">
@@ -62,7 +64,7 @@ const Login = () => {
                       <div className="w-full border-t border-gray-300" />
                     </div>
                     <div className="relative flex justify-center text-sm">
-                      <span className="bg-white px-2 text-gray-500 flex items-center capitalize">
+                      <span className="bg-white rounded-sm p-2 text-gray-500 flex items-center capitalize">
                         Or continue with email
                       </span>
                     </div>
@@ -84,7 +86,7 @@ const Login = () => {
                       type="email"
                       autoComplete="email"
                       required
-                      className="block w-full appearance-none rounded-md border border-gray-300 px-3 py-2 placeholder-gray-400 shadow-sm focus:border-darker-bg focus:outline-none focus:ring-darker-bg sm:text-sm"
+                      className="block w-full appearance-none rounded-md border  border-gray-300 px-3 py-2 placeholder-gray-400 shadow-sm focus:border-darker-bg focus:outline-none focus:ring-darker-bg sm:text-sm"
                     />
                   </div>
                 </div>
@@ -119,7 +121,7 @@ const Login = () => {
 
                 <div className="flex items-center justify-between">
                   <div className="text-sm">
-                    <a href="#" className="font-medium ">
+                    <a href="#" className="font-medium text-slate-200 dark:text-slate-800 ">
                       Forgot your password?
                     </a>
                   </div>
@@ -136,7 +138,7 @@ const Login = () => {
               </form>
             </div>
           </div>
-          <p className="flex items-center mt-3 text-slate-300">
+          <p className="flex items-center mt-3 text-slate-800 dark:text-slate-300">
             Not a user ?
             <Link
               className="ml-2 text-teal-600 hover:tracking-wide"

@@ -11,11 +11,11 @@ const ActiveStatus = () => {
   return (
     <>
       {/* {status.length > 0 && ( */}
-      <ul className="mt-5 pr-4 relative w-full">
+      <ul className="mt-5  relative w-full">
         {status.map((stat, ind) => (
           <li
             key={ind}
-            className="  pl-3 cursor-pointer dark:hover:bg-dark-bg mb-4"
+            className="  pl-3 pr-4 cursor-pointer dark:hover:bg-darker-bg hover:bg-light-header-bg py-2"
             onClick={() => {
               open(stat.user.id);
             }}
@@ -46,7 +46,7 @@ const ActiveStatus = () => {
                   />
                 </svg>
               </div>
-              <div className=" py-2 flex w-full h-full relative ml-3 text-slate-200">
+              <div className=" py-2 flex w-full h-full relative ml-3 text-slate-800 dark:text-slate-200">
                 <div className="flex flex-col">
                   <p className="text-lg font-normal">{stat.user.Fullname}</p>
                 </div>

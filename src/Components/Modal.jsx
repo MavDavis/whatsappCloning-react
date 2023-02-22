@@ -10,9 +10,8 @@ const Modal = ({left, height, content, right}) => {
       right:right,
       top: "3.5rem",
       boxShadow: "box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px",
-      backgroundColor: "#2a3942",
     }}
-    className="fixed  rounded-lg h-32 w-48 p-4 flex flex-col    "
+    className="fixed  rounded-lg h-32 w-48 p-4 flex flex-col dark:text-slate-200 text-slate-800   dark:bg-dark-bg bg-white "
   >
   {content}
   </div>  )
