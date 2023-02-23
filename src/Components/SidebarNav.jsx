@@ -20,6 +20,7 @@ const SidebarNav = () => {
     }
   }
   return (
+    // * Nothing to do today *//
     <div>
       {user && (
         <Navbar
