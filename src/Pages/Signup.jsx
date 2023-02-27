@@ -14,7 +14,7 @@ const Signup = () => {
       ? setPasswordType("text")
       : setPasswordType("password");
   };
-  const { googleSignIn, formDetails, setFormDetails, emailSignup } = useStateContext();
+  const { googleSignIn, formDetails, setFormDetails, emailSignup , error, errMssg} = useStateContext();
   const { Name, password, dates, email, years, months } = formDetails;
   const { loggedIn } = useStateContext();
   const changeInput = (event) => {
@@ -41,7 +41,8 @@ const Signup = () => {
             </h2>
             <img className="w-10 h-10 ml-2" src={logo} alt="whatsapp logo" />
           </div>
-
+          {error &&            <p className="mt-3 text-red-300 text-center flex mx-auto w-fui">{errMssg}</p>
+}
           <div className="mt-8 w-full sm:w-1/2 px-8">
             <div className="bg-white py-5 px-4 shadow sm:rounded-lg sm:px-10">
               <form className="space-y-6" onSubmit={submitForm}>

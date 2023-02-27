@@ -8,7 +8,7 @@ import logo from '../assets/logowhatsapp.png'
 
 const Login = () => {
   const [passwordType, setPasswordType] = useState("password");
-  const { loggedIn, googleSignIn, logout, formDetails, setFormDetails, login } =
+  const { loggedIn, googleSignIn, logout, formDetails, setFormDetails, login , error, errMssg} =
     useStateContext();
   const { password, email } = formDetails;
 
@@ -41,7 +41,8 @@ const Login = () => {
             </h2>
             <img className="w-10 h-10 ml-2" src={logo} alt="whatsapp logo" />
           </div>
-
+          {error &&            <p className="mt-3 text-red-300 text-center flex mx-auto w-fui">{errMssg}</p>
+}
           <div className="mt-8 w-full sm:w-1/2 px-8">
             <div className="bg-white py-8 px-4 shadow sm:rounded-lg sm:px-10">
               <div className="w-full">

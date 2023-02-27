@@ -35,6 +35,8 @@ const StateContext = createContext();
 export const ContextProvider = ({ children }) => {
   const [loading, setLoading] = useState(true);
   const [openedChat, setOpenedChat] = useState(false);
+  const [error, setError] = useState(false)
+  const [errMssg, setErrMssg] = useState('')
   const [currentOpenedChat, setCurrentOpenedChat] = useState({});
   const [currentMode, setCurrentMode] = useState("Dark");
   const [chatMessage, setChatMessage] = useState("");
@@ -307,7 +309,14 @@ export const ContextProvider = ({ children }) => {
           );
         });
       }
-    );
+    ).catch(err => {
+      setError(true)
+      setErrMssg(err.message)
+      setTimeout(() => {
+        setError(false)
+      setErrMssg('')
+      }, 10000);
+    })
   };
   async function addingUser(res) {
     const { displayName, email, uid, photoURL } = res.user;
@@ -430,7 +439,14 @@ export const ContextProvider = ({ children }) => {
         getDoc(doc(db, "User", res.user.uid)).then((item) => {
           setUser(item.data());
         });
-      });
+      }).catch(err => {
+        setError(true)
+        setErrMssg(err.message)
+        setTimeout(() => {
+          setError(false)
+        setErrMssg('')
+        }, 10000);
+      })
   }
   function logout() {
     signOut(firebaseAuth).then(() => {
@@ -607,6 +623,7 @@ export const ContextProvider = ({ children }) => {
         clickedStatus,
         setClickedStatus,
         setShowStatusImage,
+        error, errMssg
       }}
     >
       {children}
